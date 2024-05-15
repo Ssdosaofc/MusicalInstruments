@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".RegisterActivity">
+
+
+    <ImageView
+        android:id="@+id/imageView3"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:src="@drawable/regi"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+         />
+
+    <ImageView
+        android:id="@+id/imageView4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="50dp"
+
+        app:layout_constraintBottom_toBottomOf="@+id/imageView3"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/reg" />
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/registerlayout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="@+id/imageView3"
+        app:layout_constraintTop_toBottomOf="@+id/imageView4"
+        android:layout_marginStart="5dp"
+        android:hint="Enter Email..."
+        >
+
+        <com.google.android.material.textfield.TextInputEditText
+
+            android:layout_width="310dp"
+            android:layout_height="50dp"
+            android:background="@drawable/filterbutton"
+            android:id="@+id/register"
+            android:ems="15"
+
+            android:textColorHint="@color/cardview_shadow_start_color"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/imageView4" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/passwordlayout"
+        app:layout_constraintEnd_toEndOf="@+id/registerlayout"
+        app:layout_constraintStart_toStartOf="@+id/registerlayout"
+        app:layout_constraintTop_toBottomOf="@+id/registerlayout"
+        android:layout_marginTop="10dp"
+        app:passwordToggleEnabled="true"
+        android:hint="Enter Password...">
+
+        <com.google.android.material.textfield.TextInputEditText
+
+            android:layout_width="310dp"
+            android:layout_height="50dp"
+            android:id="@+id/password"
+            android:background="@drawable/filterbutton"
+
+            android:inputType="textPassword"
+
+            android:textColorHint="@color/cardview_shadow_start_color"
+
+            />
+
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/verifylayout"
+        app:boxCornerRadiusBottomEnd="10dp"
+        app:boxCornerRadiusBottomStart="10dp"
+        app:boxCornerRadiusTopStart="10dp"
+        app:boxCornerRadiusTopEnd="10dp"
+        app:layout_constraintEnd_toEndOf="@+id/passwordlayout"
+        app:layout_constraintStart_toStartOf="@+id/passwordlayout"
+        app:layout_constraintTop_toBottomOf="@+id/passwordlayout"
+        android:layout_marginTop="10dp"
+        app:passwordToggleEnabled="true"
+        android:hint="Verify Password..."
+    >
+        <com.google.android.material.textfield.TextInputEditText
+
+            android:layout_width="310dp"
+            android:layout_height="50dp"
+            android:inputType="textPassword"
+            android:id="@+id/verify"
+            android:background="@drawable/filterbutton"
+
+            android:textColorHint="@color/cardview_shadow_start_color"/>
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/already"
+        app:layout_constraintTop_toBottomOf="@id/verifylayout"
+        app:layout_constraintStart_toStartOf="@id/verifylayout"
+        android:layout_marginTop="10dp"
+        app:layout_constraintEnd_toEndOf="@id/verifylayout"
+        android:text="Already registered? Login."/>
+
+    <Button
+        android:layout_width="124dp"
+        android:layout_height="42dp"
+        android:id="@+id/registerbutton"
+        android:backgroundTint="@color/brown"
+        android:text="Register"
+        android:layout_marginTop="10dp"
+        app:layout_constraintEnd_toEndOf="@+id/already"
+        app:layout_constraintStart_toStartOf="@+id/already"
+        app:layout_constraintTop_toBottomOf="@+id/already" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/mobile_navigation"
+    app:startDestination="@id/nav_Guitar"
+    >
+
+
+    <fragment
+        android:id="@+id/nav_Guitar"
+        android:name="com.example.musical.ui.guitar.GuitarFragment"
+        android:label="Guitar"
+        tools:layout="@layout/fragment_gallery" />
+
+    <fragment
+        android:id="@+id/nav_Keyboard"
+        android:name="com.example.musical.ui.keyboard.KeyboardFragment"
+        android:label="Keyboard"
+        tools:layout="@layout/fragment_slideshow" />
+    <fragment
+        android:id="@+id/nav_Piano"
+        android:name="com.example.musical.ui.piano.PianoFragment"
+        android:label="Piano"
+        tools:layout="@layout/fragment_gallery" />
+
+    <fragment
+        android:id="@+id/nav_Violin"
+        android:name="com.example.musical.ui.violin.ViolinFragment"
+        android:label="Violin"
+        tools:layout="@layout/fragment_slideshow" />
+    <fragment
+        android:id="@+id/nav_Tabla"
+        android:name="com.example.musical.ui.tabla.TablaFragment"
+        android:label="Tabla"
+        tools:layout="@layout/fragment_slideshow" />
+    <fragment
+        android:id="@+id/nav_Harmonium"
+        android:name="com.example.musical.ui.harmonium.HarmoniumFragment"
+        android:label="Harmonium"
+        tools:layout="@layout/fragment_gallery" />
+
+    <fragment
+        android:id="@+id/nav_Vocals"
+        android:name="com.example.musical.ui.vocals.VocalsFragment"
+        android:label="Vocals"
+        tools:layout="@layout/fragment_slideshow" />
+</navigation>
