@@ -1,7 +1,9 @@
 package com.example.musical
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.Menu
+import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.navigation.findNavController
@@ -10,19 +12,15 @@ import androidx.navigation.ui.navigateUp
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import com.example.musical.databinding.ActivityMainBinding
-import com.example.musical.ui.guitar.GuitarFragment
-import com.example.musical.ui.harmonium.HarmoniumFragment
-import com.example.musical.ui.keyboard.KeyboardFragment
-import com.example.musical.ui.piano.PianoFragment
-import com.example.musical.ui.tabla.TablaFragment
-import com.example.musical.ui.violin.ViolinFragment
-import com.example.musical.ui.vocals.VocalsFragment
 import com.google.android.material.navigation.NavigationView
+import com.google.firebase.auth.FirebaseAuth
 
 class MainActivity : AppCompatActivity() {
 
     private lateinit var appBarConfiguration: AppBarConfiguration
     private lateinit var binding: ActivityMainBinding
+
+    private lateinit var auth: FirebaseAuth
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -44,49 +42,54 @@ class MainActivity : AppCompatActivity() {
         setupActionBarWithNavController(navController, appBarConfiguration)
         navView.setupWithNavController(navController)
 
+        val email= findViewById<TextView>(R.id.emailView)
+        auth = FirebaseAuth.getInstance()
+        val user = auth.currentUser
+
+        if (user == null) {
+            val intent = Intent(this, LoginActivity::class.java)
+            startActivity(intent)
+            //finish()
+        } else {
+            email.text = user.email
+        }
+
         if (intent.hasExtra("fragment")){
             val fragmentToOpen = intent.getStringExtra("fragment")
-            supportFragmentManager.popBackStack()
+
             if(fragmentToOpen == "guitar"){
                 val fragmentTransaction = supportFragmentManager.beginTransaction()
                 navController.navigate(R.id.nav_Guitar)
-                fragmentTransaction.replace(R.id.nav_host_fragment_content_main, GuitarFragment())
                 fragmentTransaction.commit()
             }
             if(fragmentToOpen == "keyboard"){
                 val fragmentTransaction = supportFragmentManager.beginTransaction()
                 navController.navigate(R.id.nav_Keyboard)
-                fragmentTransaction.replace(R.id.nav_host_fragment_content_main,KeyboardFragment())
                 fragmentTransaction.commit()
             }
             if(fragmentToOpen == "piano"){
                 val fragmentTransaction = supportFragmentManager.beginTransaction()
                 navController.navigate(R.id.nav_Piano)
-                fragmentTransaction.replace(R.id.nav_host_fragment_content_main, PianoFragment())
                 fragmentTransaction.commit()
             }
             if(fragmentToOpen == "violin"){
                 val fragmentTransaction = supportFragmentManager.beginTransaction()
                 navController.navigate(R.id.nav_Violin)
-                fragmentTransaction.replace(R.id.nav_host_fragment_content_main,ViolinFragment())
                 fragmentTransaction.commit()
             }
             if(fragmentToOpen == "tabla"){
                 val fragmentTransaction = supportFragmentManager.beginTransaction()
                 navController.navigate(R.id.nav_Tabla)
-                fragmentTransaction.replace(R.id.nav_host_fragment_content_main,TablaFragment())
                 fragmentTransaction.commit()
             }
             if(fragmentToOpen == "harmonium"){
                 val fragmentTransaction = supportFragmentManager.beginTransaction()
                 navController.navigate(R.id.nav_Harmonium)
-                fragmentTransaction.replace(R.id.nav_host_fragment_content_main, HarmoniumFragment())
                 fragmentTransaction.commit()
             }
             if(fragmentToOpen == "vocals"){
                 val fragmentTransaction = supportFragmentManager.beginTransaction()
 
-                fragmentTransaction.replace(R.id.nav_host_fragment_content_main,VocalsFragment())
                 fragmentTransaction.commit()
             }
         }
