@@ -6,11 +6,14 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
-import com.example.musical.databinding.FragmentGalleryBinding
+import com.example.musical.databinding.FragmentTablaBinding
+import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.YouTubePlayer
+import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.listeners.AbstractYouTubePlayerListener
+
 
 class TablaFragment : Fragment() {
 
-    private var _binding: FragmentGalleryBinding? = null
+    private var _binding: FragmentTablaBinding? = null
 
     // This property is only valid between onCreateView and
     // onDestroyView.
@@ -24,8 +27,18 @@ class TablaFragment : Fragment() {
         val pianoViewModel =
             ViewModelProvider(this).get(TablaViewModel::class.java)
 
-        _binding = FragmentGalleryBinding.inflate(inflater, container, false)
+        _binding = FragmentTablaBinding.inflate(inflater, container, false)
         val root: View = binding.root
+
+        val youTubePlayerView = binding.tab1
+        lifecycle.addObserver(youTubePlayerView)
+
+        youTubePlayerView.addYouTubePlayerListener(object : AbstractYouTubePlayerListener() {
+            override fun onReady(youTubePlayer: YouTubePlayer) {
+                val videoId = "S0Q4gqBUs7c"
+                youTubePlayer.loadVideo(videoId, 0f)
+            }
+        })
 
         return root
     }

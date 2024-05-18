@@ -6,11 +6,11 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
-import com.example.musical.databinding.FragmentGalleryBinding
+import com.example.musical.databinding.FragmentPianoBinding
 
 class PianoFragment : Fragment() {
 
-    private var _binding: FragmentGalleryBinding? = null
+    private var _binding: FragmentPianoBinding? = null
 
     // This property is only valid between onCreateView and
     // onDestroyView.
@@ -24,7 +24,7 @@ class PianoFragment : Fragment() {
         val pianoViewModel =
             ViewModelProvider(this).get(PianoViewModel::class.java)
 
-        _binding = FragmentGalleryBinding.inflate(inflater, container, false)
+        _binding = FragmentPianoBinding.inflate(inflater, container, false)
         val root: View = binding.root
 
         return root
