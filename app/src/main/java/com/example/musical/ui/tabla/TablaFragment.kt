@@ -33,66 +33,88 @@ class TablaFragment : Fragment() {
         val youTubePlayerView = binding.tab1
         lifecycle.addObserver(youTubePlayerView)
 
-        val right = binding.right
-        val left = binding.left
+        var right = binding.right
+        var left = binding.left
         val lesson = binding.lesson
         val desc = binding.desc
+        right.visibility=View.INVISIBLE
 
         youTubePlayerView.addYouTubePlayerListener(object : AbstractYouTubePlayerListener() {
             override fun onReady(youTubePlayer: YouTubePlayer) {
-                var videoId = "S0Q4gqBUs7c"
+                var videoId = "zlljHJtVaPw"
                 youTubePlayer.loadVideo(videoId, 0f)
-                left.visibility = View.INVISIBLE
 
-                right.setOnClickListener {
-                    left.visibility = View.VISIBLE
+
+                left.setOnClickListener {
                     when (videoId) {
-                        "S0Q4gqBUs7c" -> {
+                        "zlljHJtVaPw" -> {
                             videoId = "GmcfVozXPoc"
+                            youTubePlayer.loadVideo(videoId, 0f)
                             lesson.text = "Lesson 2"
                             desc.text = "Basic Tabla Bols Playing Techniques"
+                            right.visibility=View.VISIBLE
+                            left.visibility=View.VISIBLE
                         }
                         "GmcfVozXPoc" -> {
                             lesson.text = "Lesson 3"
+                            youTubePlayer.loadVideo(videoId, 0f)
                             videoId = "AeRjwvT9Id4"
                             desc.text = "Concept of Khuli, Mudi and Kayeda"
+                            right.visibility=View.VISIBLE
+                            left.visibility=View.VISIBLE
                         }
                         "AeRjwvT9Id4" -> {
                             videoId = "GTow0z9Rp7E"
+                            youTubePlayer.loadVideo(videoId, 0f)
                             lesson.text = "Lesson 4"
                             desc.text = "Practice of Dha Terekete Tak"
+                            right.visibility=View.VISIBLE
+                            left.visibility=View.VISIBLE
                         }
                         "GTow0z9Rp7E" -> {
                             videoId = "vW918hOHD9Q"
+                            youTubePlayer.loadVideo(videoId, 0f)
                             lesson.text = "Lesson 5"
                             desc.text = "Practice based on Tere Kete Tak, Kat GheGhe Tete Kat"
-                            right.visibility = View.INVISIBLE
+                            left.visibility=View.INVISIBLE
+                            right.visibility=View.VISIBLE
                         }
                     }
                 }
 
-                left.setOnClickListener {
+                right.setOnClickListener {
                     when (videoId) {
                         "GmcfVozXPoc" -> {
-                            videoId = "S0Q4gqBUs7c"
+                            videoId = "zlljHJtVaPw"
+                            youTubePlayer.loadVideo(videoId, 0f)
                             lesson.text = "Lesson 1"
                             desc.text = "Basics of Tabla, Parts of Tabla, Important Tabla Bol"
-                            left.visibility = View.INVISIBLE
+                            right.visibility=View.INVISIBLE
+                            left.visibility=View.VISIBLE
                         }
                         "AeRjwvT9Id4" -> {
                             lesson.text = "Lesson 2"
+                            youTubePlayer.loadVideo(videoId, 0f)
                             videoId = "GmcfVozXPoc"
                             desc.text = "Basic Tabla Bols Playing Techniques"
+                            right.visibility=View.VISIBLE
+                            left.visibility=View.VISIBLE
                         }
                         "GTow0z9Rp7E" -> {
                             videoId = "AeRjwvT9Id4"
+                            youTubePlayer.loadVideo(videoId, 0f)
                             lesson.text = "Lesson 3"
                             desc.text = "Concept of Khuli, Mudi and Kayeda"
+                            right.visibility=View.VISIBLE
+                            left.visibility=View.VISIBLE
                         }
                         "vW918hOHD9Q" -> {
                             videoId = "GTow0z9Rp7E"
+                            youTubePlayer.loadVideo(videoId, 0f)
                             lesson.text = "Lesson 4"
                             desc.text = "Practice of Dha Terekete Takt"
+                            right.visibility=View.VISIBLE
+                            left.visibility=View.VISIBLE
                         }
                     }
                 }

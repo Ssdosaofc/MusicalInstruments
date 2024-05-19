@@ -18,7 +18,7 @@
             android:id="@+id/tab1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:autoPlay="true"
+            app:autoPlay="false"
             app:videoId="zlljHJtVaPw" />
 
         <TextView
@@ -57,7 +57,6 @@
         android:layout_width="50dp"
         android:layout_height="50dp"
         android:layout_marginTop="70dp"
-        android:visibility="invisible"
         android:background="@drawable/baseline_arrow_left_24"
         android:foreground="@drawable/baseline_arrow_left_24"
         android:foregroundTint="@color/black"
