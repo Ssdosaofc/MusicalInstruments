@@ -23,6 +23,7 @@
 
         <TextView
             android:layout_width="wrap_content"
+            android:id="@+id/lesson"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_marginTop="15dp"
@@ -33,6 +34,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
+            android:id="@+id/desc"
             android:layout_marginTop="15dp"
             android:text="Basics of Tabla, Parts of Tabla, Important Tabla Bols"
             android:textSize="15sp" />
@@ -55,6 +57,7 @@
         android:layout_width="50dp"
         android:layout_height="50dp"
         android:layout_marginTop="70dp"
+        android:visibility="invisible"
         android:background="@drawable/baseline_arrow_left_24"
         android:foreground="@drawable/baseline_arrow_left_24"
         android:foregroundTint="@color/black"

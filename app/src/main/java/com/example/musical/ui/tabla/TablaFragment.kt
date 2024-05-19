@@ -33,13 +33,70 @@ class TablaFragment : Fragment() {
         val youTubePlayerView = binding.tab1
         lifecycle.addObserver(youTubePlayerView)
 
+        val right = binding.right
+        val left = binding.left
+        val lesson = binding.lesson
+        val desc = binding.desc
+        left.visibility = View.INVISIBLE
+
         youTubePlayerView.addYouTubePlayerListener(object : AbstractYouTubePlayerListener() {
             override fun onReady(youTubePlayer: YouTubePlayer) {
-                val videoId = "S0Q4gqBUs7c"
+                var videoId = "S0Q4gqBUs7c"
                 youTubePlayer.loadVideo(videoId, 0f)
+
+                right.setOnClickListener {
+                    left.visibility = View.VISIBLE
+                    when (videoId) {
+                        "S0Q4gqBUs7c" -> {
+                            videoId = "GmcfVozXPoc"
+                            lesson.text = "Lesson 2"
+                            desc.text = "Basic Tabla Bols Playing Techniques"
+                        }
+                        "GmcfVozXPoc" -> {
+                            lesson.text = "Lesson 3"
+                            videoId = "AeRjwvT9Id4"
+                            desc.text = "Concept of Khuli, Mudi and Kayeda"
+                        }
+                        "AeRjwvT9Id4" -> {
+                            videoId = "GTow0z9Rp7E"
+                            lesson.text = "Lesson 4"
+                            desc.text = "Practice of Dha Terekete Tak"
+                        }
+                        "GTow0z9Rp7E" -> {
+                            videoId = "vW918hOHD9Q"
+                            lesson.text = "Lesson 5"
+                            desc.text = "Practice based on Tere Kete Tak, Kat GheGhe Tete Kat"
+                            right.visibility = View.INVISIBLE
+                        }
+                    }
+                }
+
+                left.setOnClickListener {
+                    when (videoId) {
+                        "GmcfVozXPoc" -> {
+                            videoId = "S0Q4gqBUs7c"
+                            lesson.text = "Lesson 1"
+                            desc.text = "Basic Tabla Bols Playing Techniques"
+                        }
+                        "AeRjwvT9Id4" -> {
+                            lesson.text = "Lesson 2"
+                            videoId = "GmcfVozXPoc"
+                            desc.text = "Basic Tabla Bols Playing Techniques"
+                        }
+                        "GTow0z9Rp7E" -> {
+                            videoId = "AeRjwvT9Id4"
+                            lesson.text = "Lesson 3"
+                            desc.text = "Concept of Khuli, Mudi and Kayeda"
+                        }
+                        "vW918hOHD9Q" -> {
+                            videoId = "GTow0z9Rp7E"
+                            lesson.text = "Lesson 4"
+                            desc.text = "Practice of Dha Terekete Takt"
+                        }
+                    }
+                }
             }
         })
-
         return root
     }
 
