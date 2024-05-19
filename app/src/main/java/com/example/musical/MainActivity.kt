@@ -42,9 +42,11 @@ class MainActivity : AppCompatActivity() {
         setupActionBarWithNavController(navController, appBarConfiguration)
         navView.setupWithNavController(navController)
 
-        val email= findViewById<TextView>(R.id.emailView)
         auth = FirebaseAuth.getInstance()
         val user = auth.currentUser
+
+        val header = navView.getHeaderView(0)
+        val email = header.findViewById<TextView>(R.id.emailView)
 
         if (user == null) {
             val intent = Intent(this, LoginActivity::class.java)
@@ -56,42 +58,17 @@ class MainActivity : AppCompatActivity() {
 
         if (intent.hasExtra("fragment")){
             val fragmentToOpen = intent.getStringExtra("fragment")
-
-            if(fragmentToOpen == "guitar"){
-                val fragmentTransaction = supportFragmentManager.beginTransaction()
-                navController.navigate(R.id.nav_Guitar)
-                fragmentTransaction.commit()
+            val fragmentTransaction = supportFragmentManager.beginTransaction()
+            when (fragmentToOpen) {
+                "guitar" -> navController.navigate(R.id.nav_Guitar)
+                "keyboard" -> navController.navigate(R.id.nav_Keyboard)
+                "piano" -> navController.navigate(R.id.nav_Piano)
+                "violin" -> navController.navigate(R.id.nav_Violin)
+                "tabla" -> navController.navigate(R.id.nav_Tabla)
+                "harmonium" -> navController.navigate(R.id.nav_Harmonium)
+                "vocals" -> navController.navigate(R.id.nav_Vocals)
             }
-            if(fragmentToOpen == "keyboard"){
-                val fragmentTransaction = supportFragmentManager.beginTransaction()
-                navController.navigate(R.id.nav_Keyboard)
-                fragmentTransaction.commit()
-            }
-            if(fragmentToOpen == "piano"){
-                val fragmentTransaction = supportFragmentManager.beginTransaction()
-                navController.navigate(R.id.nav_Piano)
-                fragmentTransaction.commit()
-            }
-            if(fragmentToOpen == "violin"){
-                val fragmentTransaction = supportFragmentManager.beginTransaction()
-                navController.navigate(R.id.nav_Violin)
-                fragmentTransaction.commit()
-            }
-            if(fragmentToOpen == "tabla"){
-                val fragmentTransaction = supportFragmentManager.beginTransaction()
-                navController.navigate(R.id.nav_Tabla)
-                fragmentTransaction.commit()
-            }
-            if(fragmentToOpen == "harmonium"){
-                val fragmentTransaction = supportFragmentManager.beginTransaction()
-                navController.navigate(R.id.nav_Harmonium)
-                fragmentTransaction.commit()
-            }
-            if(fragmentToOpen == "vocals"){
-                val fragmentTransaction = supportFragmentManager.beginTransaction()
-
-                fragmentTransaction.commit()
-            }
+            fragmentTransaction.commit()
         }
 
     }

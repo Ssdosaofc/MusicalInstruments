@@ -37,12 +37,12 @@ class TablaFragment : Fragment() {
         val left = binding.left
         val lesson = binding.lesson
         val desc = binding.desc
-        left.visibility = View.INVISIBLE
 
         youTubePlayerView.addYouTubePlayerListener(object : AbstractYouTubePlayerListener() {
             override fun onReady(youTubePlayer: YouTubePlayer) {
                 var videoId = "S0Q4gqBUs7c"
                 youTubePlayer.loadVideo(videoId, 0f)
+                left.visibility = View.INVISIBLE
 
                 right.setOnClickListener {
                     left.visibility = View.VISIBLE
@@ -76,7 +76,8 @@ class TablaFragment : Fragment() {
                         "GmcfVozXPoc" -> {
                             videoId = "S0Q4gqBUs7c"
                             lesson.text = "Lesson 1"
-                            desc.text = "Basic Tabla Bols Playing Techniques"
+                            desc.text = "Basics of Tabla, Parts of Tabla, Important Tabla Bol"
+                            left.visibility = View.INVISIBLE
                         }
                         "AeRjwvT9Id4" -> {
                             lesson.text = "Lesson 2"
