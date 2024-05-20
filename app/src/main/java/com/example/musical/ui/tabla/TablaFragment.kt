@@ -57,8 +57,8 @@ class TablaFragment : Fragment() {
                         }
                         "GmcfVozXPoc" -> {
                             lesson.text = "Lesson 3"
-                            youTubePlayer.loadVideo(videoId, 0f)
                             videoId = "AeRjwvT9Id4"
+                            youTubePlayer.loadVideo(videoId, 0f)
                             desc.text = "Concept of Khuli, Mudi and Kayeda"
                             right.visibility=View.VISIBLE
                             left.visibility=View.VISIBLE

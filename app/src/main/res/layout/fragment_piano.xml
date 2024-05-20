@@ -19,7 +19,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:autoPlay="false"
-            app:videoId="zlljHJtVaPw" />
+            app:videoId="827jmswqnEA" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -36,7 +36,7 @@
             android:layout_gravity="center"
             android:id="@+id/desc"
             android:layout_marginTop="15dp"
-            android:text=""
+            android:text="Getting Started! Learn some simple chords"
             android:textSize="15sp" />
     </LinearLayout>
 
