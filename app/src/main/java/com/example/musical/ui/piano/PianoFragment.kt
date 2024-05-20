@@ -63,7 +63,7 @@ class PianoFragment : Fragment() {
                             right.visibility=View.VISIBLE
                             left.visibility=View.VISIBLE
                         }
-                        "SV2ehlxGEFw" -> {
+                        "PeYSesLA5K4" -> {
                             videoId = "ZD_sAWAlWq0"
                             youTubePlayer.loadVideo(videoId, 0f)
                             lesson.text = "Lesson 4"
@@ -121,8 +121,6 @@ class PianoFragment : Fragment() {
                 }
             }
         })
-
-
 
         return root
     }
