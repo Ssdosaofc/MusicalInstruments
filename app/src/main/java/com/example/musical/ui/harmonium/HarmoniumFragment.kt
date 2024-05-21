@@ -162,6 +162,7 @@ fun addNotes(context: Context, collection: String, addNote:FloatingActionButton,
             ref.document().set(noteSave).addOnCompleteListener { p0 ->
                 if (p0.isSuccessful) {
                     Toast.makeText(context, "Note added", Toast.LENGTH_SHORT).show()
+                    note.text!!.clear()
                 } else {
                     Toast.makeText(context, "Note could not be added", Toast.LENGTH_SHORT).show()
                 }
