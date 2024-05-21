@@ -1,16 +1,27 @@
 package com.example.musical.ui.harmonium
 
+import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
+import androidx.appcompat.widget.AppCompatEditText
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import com.example.musical.Note
 import com.example.musical.databinding.FragmentHaarmoniumBinding
+import com.google.android.material.floatingactionbutton.FloatingActionButton
+import com.google.firebase.Timestamp
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.FirebaseUser
+import com.google.firebase.firestore.FirebaseFirestore
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.YouTubePlayer
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.listeners.AbstractYouTubePlayerListener
 
 class HarmoniumFragment : Fragment() {
+
+    private lateinit var user: FirebaseUser
 
     private var _binding: FragmentHaarmoniumBinding? = null
 
@@ -121,11 +132,40 @@ class HarmoniumFragment : Fragment() {
             }
         })
 
+        val addnote = binding.tick
+        val note = binding.note
+        user= FirebaseAuth.getInstance().currentUser!!
+
+        addNotes(requireContext(),"Harmonium",addnote,note,user)
         return root
     }
 
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+    }
+
+    }
+fun addNotes(context: Context, collection: String, addNote:FloatingActionButton, note:AppCompatEditText, user: FirebaseUser) {
+    addNote.setOnClickListener{
+
+        if(note.text.isNullOrEmpty()){
+            Toast.makeText(context,"Note is empty",Toast.LENGTH_SHORT).show()
+        }
+        else{
+            val noteSave  = Note(note.text.toString(), Timestamp.now())
+
+
+            val ref = FirebaseFirestore.getInstance().collection("Notes")
+                .document(user.uid).collection(collection)
+
+            ref.document().set(noteSave).addOnCompleteListener { p0 ->
+                if (p0.isSuccessful) {
+                    Toast.makeText(context, "Note added", Toast.LENGTH_SHORT).show()
+                } else {
+                    Toast.makeText(context, "Note could not be added", Toast.LENGTH_SHORT).show()
+                }
+            }
+        }
     }
 }

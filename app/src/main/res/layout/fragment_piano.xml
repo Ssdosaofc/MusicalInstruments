@@ -53,10 +53,11 @@
         app:layout_constraintTop_toBottomOf="@+id/right" />
 
     <androidx.appcompat.widget.AppCompatEditText
-        android:gravity="left"
         android:id="@+id/note"
+        android:gravity="start"
         android:layout_width="match_parent"
         android:layout_margin="10dp"
+        android:background="@drawable/noteedit"
         android:layout_height="100dp"
         android:hint="Leave your notes here...."
         app:layout_constraintEnd_toEndOf="parent"
@@ -76,6 +77,15 @@
         android:foregroundGravity="center"
         android:layout_marginRight="10dp"
         />
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/note">
+
+
+
+    </androidx.core.widget.NestedScrollView>
 
     <Button
         android:id="@+id/left"
