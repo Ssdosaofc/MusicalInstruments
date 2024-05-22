@@ -71,6 +71,8 @@ class MainActivity : AppCompatActivity() {
             fragmentTransaction.commit()
         }
 
+
+
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
