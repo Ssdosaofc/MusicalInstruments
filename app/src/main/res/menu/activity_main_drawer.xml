@@ -5,6 +5,11 @@
 
     <group android:checkableBehavior="single">
         <item
+            android:id="@+id/nav_Rec"
+            android:icon="@drawable/ic_menu_camera"
+            android:title="Record your own Music" />
+
+        <item
             android:id="@+id/nav_Guitar"
             android:icon="@drawable/ic_menu_camera"
             android:title="Guitar" />

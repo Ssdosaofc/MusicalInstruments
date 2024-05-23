@@ -87,6 +87,7 @@
         app:layout_constraintTop_toBottomOf="@id/note">
 
         <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/harmolist"
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
     </androidx.core.widget.NestedScrollView>

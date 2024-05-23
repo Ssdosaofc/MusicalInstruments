@@ -7,12 +7,16 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import androidx.recyclerview.widget.RecyclerView.Adapter
 import com.example.musical.Note
 import com.example.musical.R
+import com.firebase.ui.firestore.FirestoreRecyclerAdapter
+import com.firebase.ui.firestore.FirestoreRecyclerOptions
+import java.text.SimpleDateFormat
 
-class NoteAdapter(val context: Context, var notes:List<Note>):
-    Adapter<NoteAdapter.NoteViewHolder>() {
+class NoteAdapter(val context: Context,
+                  options: FirestoreRecyclerOptions<Note>
+):
+    FirestoreRecyclerAdapter<Note, NoteAdapter.NoteViewHolder>(options) {
     class NoteViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
         var noteText = itemView.findViewById<TextView>(R.id.notetext)
@@ -26,15 +30,9 @@ class NoteAdapter(val context: Context, var notes:List<Note>):
         return NoteViewHolder(view)
     }
 
-    override fun getItemCount(): Int {
-        return notes.size
-    }
-
-    override fun onBindViewHolder(holder: NoteViewHolder, position: Int) {
-        val note = notes[position]
-
-        holder.noteText.text = note.note
-        holder.timestamp.text = note.timestamp.toString()
+    override fun onBindViewHolder(p0: NoteViewHolder, p1: Int, p2: Note) {
+        p0.noteText.text = p2.note
+        p0.timestamp.text = SimpleDateFormat("dd/MM/yyyy").format(p2.timestamp.toDate())
     }
 
 }

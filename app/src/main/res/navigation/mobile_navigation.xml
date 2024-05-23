@@ -3,9 +3,15 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/mobile_navigation"
-    app:startDestination="@id/nav_Guitar"
+    app:startDestination="@id/nav_Rec"
     >
 
+
+    <fragment
+        android:id="@+id/nav_Rec"
+        android:name="com.example.musical.ui.recorder.RecorderFragment"
+        android:label="Record"
+        tools:layout="@layout/fragment_recorder" />
 
     <fragment
         android:id="@+id/nav_Guitar"

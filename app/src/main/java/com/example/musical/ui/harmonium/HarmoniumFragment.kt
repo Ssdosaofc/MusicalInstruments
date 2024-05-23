@@ -9,13 +9,18 @@ import android.widget.Toast
 import androidx.appcompat.widget.AppCompatEditText
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.example.musical.Note
 import com.example.musical.databinding.FragmentHaarmoniumBinding
+import com.example.musical.noteRecycler.NoteAdapter
+import com.firebase.ui.firestore.FirestoreRecyclerOptions
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.firebase.Timestamp
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.Query
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.YouTubePlayer
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.listeners.AbstractYouTubePlayerListener
 
@@ -23,6 +28,8 @@ class HarmoniumFragment : Fragment() {
 
     private lateinit var user: FirebaseUser
 
+    private lateinit var harmoList: RecyclerView
+    private lateinit var noteAdapter:NoteAdapter
     private var _binding: FragmentHaarmoniumBinding? = null
 
     // This property is only valid between onCreateView and
@@ -137,12 +144,40 @@ class HarmoniumFragment : Fragment() {
         user= FirebaseAuth.getInstance().currentUser!!
 
         addNotes(requireContext(),"Harmonium",addnote,note,user)
+
+        harmoList = binding.harmolist
+
+        val ref = FirebaseFirestore.getInstance().collection("Notes")
+            .document(user.uid).collection("Harmonium")
+        val query = ref.orderBy("timestamp",Query.Direction.DESCENDING)
+        val options = FirestoreRecyclerOptions.Builder<Note>()
+            .setQuery(query,Note::class.java).build()
+        harmoList.layoutManager = LinearLayoutManager(requireContext())
+        noteAdapter = NoteAdapter(requireContext(),options)
+        harmoList.adapter = noteAdapter
+
         return root
     }
 
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+    }
+
+    override fun onStart() {
+        super.onStart()
+        noteAdapter.startListening()
+
+    }
+
+    override fun onStop() {
+        super.onStop()
+        noteAdapter.stopListening()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        noteAdapter.notifyDataSetChanged()
     }
 
     }
@@ -169,4 +204,15 @@ fun addNotes(context: Context, collection: String, addNote:FloatingActionButton,
             }
         }
     }
+}
+
+fun recyclerView(user: FirebaseUser,harmoList:RecyclerView,context: Context){
+    val ref = FirebaseFirestore.getInstance().collection("Notes")
+        .document(user.uid).collection("Harmonium")
+    val query = ref.orderBy("timestamp",Query.Direction.DESCENDING)
+    val options = FirestoreRecyclerOptions.Builder<Note>()
+        .setQuery(query,Note::class.java).build()
+    harmoList.layoutManager = LinearLayoutManager(context)
+    val noteAdapter = NoteAdapter(context,options)
+    harmoList.adapter = noteAdapter
 }

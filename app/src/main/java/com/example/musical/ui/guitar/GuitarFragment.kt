@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.example.musical.databinding.FragmentGalleryBinding
+import com.example.musical.ui.recorder.RecorderViewModel
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.YouTubePlayer
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.listeners.AbstractYouTubePlayerListener
 
@@ -24,7 +25,7 @@ class GuitarFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         val pianoViewModel =
-            ViewModelProvider(this).get(GuitarViewModel::class.java)
+            ViewModelProvider(this).get(RecorderViewModel::class.java)
 
         _binding = FragmentGalleryBinding.inflate(inflater, container, false)
         val root: View = binding.root
