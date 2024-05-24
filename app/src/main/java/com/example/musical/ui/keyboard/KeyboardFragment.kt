@@ -7,6 +7,9 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.example.musical.databinding.FragmentSlideshowBinding
+import com.example.musical.ui.harmonium.addNotes
+import com.example.musical.ui.harmonium.recyclerView
+import com.google.firebase.auth.FirebaseAuth
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.YouTubePlayer
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.listeners.AbstractYouTubePlayerListener
 
@@ -120,6 +123,19 @@ class KeyboardFragment : Fragment() {
                 }
             }
         })
+
+        val addnote = binding.tick
+        val note = binding.note
+        val list = binding.list
+        val user= FirebaseAuth.getInstance().currentUser!!
+
+        val collection = "Keyboard"
+
+        recyclerView(user,list,requireContext(),collection)
+
+        addnote.setOnClickListener{
+            addNotes(requireContext(),collection,addnote,note,user)
+        }
 
         return root
     }

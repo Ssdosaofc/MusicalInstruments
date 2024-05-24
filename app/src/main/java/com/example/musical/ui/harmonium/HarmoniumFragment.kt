@@ -28,7 +28,6 @@ class HarmoniumFragment : Fragment() {
 
     private lateinit var user: FirebaseUser
 
-    private lateinit var harmoList: RecyclerView
     private lateinit var noteAdapter:NoteAdapter
     private var _binding: FragmentHaarmoniumBinding? = null
 
@@ -141,12 +140,12 @@ class HarmoniumFragment : Fragment() {
 
         val addnote = binding.tick
         val note = binding.note
-        harmoList = binding.list
+        val list = binding.list
         user= FirebaseAuth.getInstance().currentUser!!
 
         val collection = "Harmonium"
 
-        recyclerView(user,harmoList,requireContext(),collection)
+        recyclerView(user,list,requireContext(),collection)
 
         addnote.setOnClickListener{
             addNotes(requireContext(),collection,addnote,note,user)
@@ -177,7 +176,7 @@ class HarmoniumFragment : Fragment() {
     }
 
     }
-public fun addNotes(context: Context, collection: String, addNote:FloatingActionButton, note:AppCompatEditText, user: FirebaseUser) {
+fun addNotes(context: Context, collection: String, addNote:FloatingActionButton, note:AppCompatEditText, user: FirebaseUser) {
     addNote.setOnClickListener{
 
         if(note.text.isNullOrEmpty()){
@@ -202,7 +201,7 @@ public fun addNotes(context: Context, collection: String, addNote:FloatingAction
     }
 }
 
-public fun recyclerView(user: FirebaseUser,harmoList:RecyclerView,context: Context,collection: String){
+fun recyclerView(user: FirebaseUser,harmoList:RecyclerView,context: Context,collection: String){
     val ref = FirebaseFirestore.getInstance().collection("Notes")
         .document(user.uid).collection(collection)
     val query = ref.orderBy("timestamp",Query.Direction.DESCENDING)
