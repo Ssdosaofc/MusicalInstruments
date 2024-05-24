@@ -123,6 +123,7 @@ class GuitarFragment : Fragment() {
         })
 
 
+
         return root
     }
 

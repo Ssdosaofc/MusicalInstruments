@@ -141,20 +141,16 @@ class HarmoniumFragment : Fragment() {
 
         val addnote = binding.tick
         val note = binding.note
+        harmoList = binding.list
         user= FirebaseAuth.getInstance().currentUser!!
 
-        addNotes(requireContext(),"Harmonium",addnote,note,user)
+        val collection = "Harmonium"
 
-        harmoList = binding.harmolist
+        recyclerView(user,harmoList,requireContext(),collection)
 
-        val ref = FirebaseFirestore.getInstance().collection("Notes")
-            .document(user.uid).collection("Harmonium")
-        val query = ref.orderBy("timestamp",Query.Direction.DESCENDING)
-        val options = FirestoreRecyclerOptions.Builder<Note>()
-            .setQuery(query,Note::class.java).build()
-        harmoList.layoutManager = LinearLayoutManager(requireContext())
-        noteAdapter = NoteAdapter(requireContext(),options)
-        harmoList.adapter = noteAdapter
+        addnote.setOnClickListener{
+            addNotes(requireContext(),collection,addnote,note,user)
+        }
 
         return root
     }
@@ -181,7 +177,7 @@ class HarmoniumFragment : Fragment() {
     }
 
     }
-fun addNotes(context: Context, collection: String, addNote:FloatingActionButton, note:AppCompatEditText, user: FirebaseUser) {
+public fun addNotes(context: Context, collection: String, addNote:FloatingActionButton, note:AppCompatEditText, user: FirebaseUser) {
     addNote.setOnClickListener{
 
         if(note.text.isNullOrEmpty()){
@@ -206,13 +202,13 @@ fun addNotes(context: Context, collection: String, addNote:FloatingActionButton,
     }
 }
 
-fun recyclerView(user: FirebaseUser,harmoList:RecyclerView,context: Context){
+public fun recyclerView(user: FirebaseUser,harmoList:RecyclerView,context: Context,collection: String){
     val ref = FirebaseFirestore.getInstance().collection("Notes")
-        .document(user.uid).collection("Harmonium")
+        .document(user.uid).collection(collection)
     val query = ref.orderBy("timestamp",Query.Direction.DESCENDING)
     val options = FirestoreRecyclerOptions.Builder<Note>()
         .setQuery(query,Note::class.java).build()
     harmoList.layoutManager = LinearLayoutManager(context)
-    val noteAdapter = NoteAdapter(context,options)
+    val noteAdapter = NoteAdapter(context,options,collection)
     harmoList.adapter = noteAdapter
 }

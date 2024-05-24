@@ -78,15 +78,15 @@ class MainActivity : AppCompatActivity() {
         // Inflate the menu; this adds items to the action bar if it is present.
         menuInflater.inflate(R.menu.main, menu)
 
-//        val signOut = menu.findItem(R.id.action_settings)
-//
-//        signOut.setOnMenuItemClickListener {
-//            auth.signOut()
-//            val intent = Intent(this, LoginActivity::class.java)
-//            startActivity(intent)
-//            finish()
-//            true
-//        }
+        val signOut = menu.findItem(R.id.action_settings)
+
+        signOut.setOnMenuItemClickListener {
+            auth.signOut()
+            val intent = Intent(this, LoginActivity::class.java)
+            startActivity(intent)
+            finish()
+            true
+        }
         return true
     }
 

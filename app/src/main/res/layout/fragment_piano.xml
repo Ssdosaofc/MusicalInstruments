@@ -58,7 +58,8 @@
         android:layout_width="match_parent"
         android:layout_margin="10dp"
         android:background="@drawable/noteedit"
-        android:layout_height="100dp"
+        android:minLines="4"
+        android:layout_height="wrap_content"
         android:hint="Leave your notes here...."
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -80,11 +81,15 @@
 
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
+        android:layout_margin="10dp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toBottomOf="@id/note">
 
-
-
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/list"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
     </androidx.core.widget.NestedScrollView>
 
     <Button
