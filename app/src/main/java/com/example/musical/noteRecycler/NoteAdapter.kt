@@ -56,6 +56,7 @@ class NoteAdapter(val context: Context,
                 Toast.makeText(context, "Note could not be deleted", Toast.LENGTH_SHORT).show()
             }
         }
+
     }
 
 }

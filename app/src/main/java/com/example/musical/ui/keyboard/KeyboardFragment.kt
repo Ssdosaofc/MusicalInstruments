@@ -6,10 +6,15 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import com.example.musical.Note
 import com.example.musical.databinding.FragmentSlideshowBinding
+import com.example.musical.noteRecycler.NoteAdapter
 import com.example.musical.ui.harmonium.addNotes
 import com.example.musical.ui.harmonium.recyclerView
+import com.firebase.ui.firestore.FirestoreRecyclerOptions
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.Query
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.YouTubePlayer
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.listeners.AbstractYouTubePlayerListener
 
@@ -19,6 +24,7 @@ class KeyboardFragment : Fragment() {
 
     // This property is only valid between onCreateView and
     // onDestroyView.
+    private lateinit var noteAdapter:NoteAdapter
     private val binding get() = _binding!!
 
     override fun onCreateView(
@@ -131,7 +137,14 @@ class KeyboardFragment : Fragment() {
 
         val collection = "Keyboard"
 
-        recyclerView(user,list,requireContext(),collection)
+        val ref = FirebaseFirestore.getInstance().collection("Notes")
+            .document(user.uid).collection(collection)
+        val query = ref.orderBy("timestamp", Query.Direction.DESCENDING)
+        val options = FirestoreRecyclerOptions.Builder<Note>()
+            .setQuery(query, Note::class.java).build()
+        noteAdapter = NoteAdapter(requireContext(),options,collection)
+
+        recyclerView(user,list,requireContext(),collection,noteAdapter)
 
         addnote.setOnClickListener{
             addNotes(requireContext(),collection,addnote,note,user)

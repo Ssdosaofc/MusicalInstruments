@@ -145,11 +145,20 @@ class HarmoniumFragment : Fragment() {
 
         val collection = "Harmonium"
 
-        recyclerView(user,list,requireContext(),collection)
+        val ref = FirebaseFirestore.getInstance().collection("Notes")
+            .document(user.uid).collection(collection)
+        val query = ref.orderBy("timestamp",Query.Direction.DESCENDING)
+        val options = FirestoreRecyclerOptions.Builder<Note>()
+            .setQuery(query,Note::class.java).build()
+        noteAdapter = NoteAdapter(requireContext(),options,collection)
+
+        recyclerView(user,list,requireContext(),collection,noteAdapter)
 
         addnote.setOnClickListener{
             addNotes(requireContext(),collection,addnote,note,user)
         }
+
+        noteAdapter.notifyDataSetChanged()
 
         return root
     }
@@ -201,13 +210,9 @@ fun addNotes(context: Context, collection: String, addNote:FloatingActionButton,
     }
 }
 
-fun recyclerView(user: FirebaseUser,harmoList:RecyclerView,context: Context,collection: String){
-    val ref = FirebaseFirestore.getInstance().collection("Notes")
-        .document(user.uid).collection(collection)
-    val query = ref.orderBy("timestamp",Query.Direction.DESCENDING)
-    val options = FirestoreRecyclerOptions.Builder<Note>()
-        .setQuery(query,Note::class.java).build()
+fun recyclerView(user: FirebaseUser,harmoList:RecyclerView,context: Context,collection: String,noteAdapter: NoteAdapter){
+
     harmoList.layoutManager = LinearLayoutManager(context)
-    val noteAdapter = NoteAdapter(context,options,collection)
     harmoList.adapter = noteAdapter
+    noteAdapter.notifyDataSetChanged()
 }
