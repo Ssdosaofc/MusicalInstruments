@@ -6,37 +6,37 @@
     <group android:checkableBehavior="single">
         <item
             android:id="@+id/nav_Rec"
-            android:icon="@drawable/ic_menu_camera"
+            android:icon="@drawable/baseline_content_mic_24"
             android:title="Record your own Music" />
 
         <item
             android:id="@+id/nav_Guitar"
-            android:icon="@drawable/ic_menu_camera"
+            android:icon="@drawable/guitar"
             android:title="Guitar" />
 
         <item
             android:id="@+id/nav_Keyboard"
-            android:icon="@drawable/ic_menu_gallery"
+            android:icon="@drawable/key"
             android:title="Keyboard" />
         <item
             android:id="@+id/nav_Piano"
-            android:icon="@drawable/ic_menu_slideshow"
+            android:icon="@drawable/piano_musical_instrument_svgrepo_com"
             android:title="Piano" />
         <item
             android:id="@+id/nav_Violin"
-            android:icon="@drawable/ic_menu_camera"
+            android:icon="@drawable/violin_silhouette_svgrepo_com"
             android:title="Violin" />
         <item
             android:id="@+id/nav_Tabla"
-            android:icon="@drawable/ic_menu_gallery"
+            android:icon="@drawable/tablas_svgrepo_com"
             android:title="Tabla" />
         <item
             android:id="@+id/nav_Harmonium"
-            android:icon="@drawable/ic_menu_slideshow"
+            android:icon="@drawable/harmonium_svgrepo_com"
             android:title="Harmonium" />
         <item
             android:id="@+id/nav_Vocals"
-            android:icon="@drawable/ic_menu_slideshow"
+            android:icon="@drawable/vocal"
             android:title="Vocals" />
     </group>
 </menu>
