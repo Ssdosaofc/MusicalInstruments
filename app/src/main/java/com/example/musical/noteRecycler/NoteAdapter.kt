@@ -8,7 +8,6 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.widget.AppCompatImageButton
 import androidx.recyclerview.widget.RecyclerView
-import com.example.musical.Note
 import com.example.musical.R
 import com.firebase.ui.firestore.FirestoreRecyclerAdapter
 import com.firebase.ui.firestore.FirestoreRecyclerOptions
@@ -18,7 +17,7 @@ import com.google.firebase.firestore.FirebaseFirestore
 import java.text.SimpleDateFormat
 
 class NoteAdapter(val context: Context,
-                  options: FirestoreRecyclerOptions<Note>,val collection: String
+                  options: FirestoreRecyclerOptions<Note>, val collection: String
 ):
     FirestoreRecyclerAdapter<Note, NoteAdapter.NoteViewHolder>(options) {
 
@@ -41,15 +40,15 @@ class NoteAdapter(val context: Context,
         p0.delete.setOnClickListener {v->
 
             val user= FirebaseAuth.getInstance().currentUser!!
-            deleteNote(user, context, collection)
+            deleteNote(user, context, collection,p2.docId)
         }
     }
 
-    fun deleteNote(user: FirebaseUser, context: Context, collection: String){
+    fun deleteNote(user: FirebaseUser, context: Context, collection: String,docId:String){
         val ref = FirebaseFirestore.getInstance().collection("Notes")
             .document(user.uid).collection(collection)
 
-        ref.document().delete().addOnCompleteListener { p0 ->
+        ref.document(docId).delete().addOnCompleteListener { p0 ->
             if (p0.isSuccessful) {
                 Toast.makeText(context, "Note deleted", Toast.LENGTH_SHORT).show()
             } else {

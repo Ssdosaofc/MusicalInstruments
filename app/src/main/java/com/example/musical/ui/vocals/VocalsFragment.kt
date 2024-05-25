@@ -6,7 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
-import com.example.musical.Note
+import com.example.musical.noteRecycler.Note
 import com.example.musical.databinding.FragmentVocalsBinding
 import com.example.musical.noteRecycler.NoteAdapter
 import com.example.musical.ui.harmonium.addNotes
@@ -145,7 +145,7 @@ class VocalsFragment : Fragment() {
             .setQuery(query, Note::class.java).build()
         noteAdapter = NoteAdapter(requireContext(),options,collection)
 
-        recyclerView(user,list,requireContext(),collection,noteAdapter)
+        recyclerView(list, requireContext(), noteAdapter)
 
         addnote.setOnClickListener{
             addNotes(requireContext(),collection,addnote,note,user)

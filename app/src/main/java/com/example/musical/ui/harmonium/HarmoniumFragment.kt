@@ -11,8 +11,8 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.musical.Note
 import com.example.musical.databinding.FragmentHaarmoniumBinding
+import com.example.musical.noteRecycler.Note
 import com.example.musical.noteRecycler.NoteAdapter
 import com.firebase.ui.firestore.FirestoreRecyclerOptions
 import com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -30,6 +30,7 @@ class HarmoniumFragment : Fragment() {
 
     private lateinit var noteAdapter:NoteAdapter
     private var _binding: FragmentHaarmoniumBinding? = null
+
 
     // This property is only valid between onCreateView and
     // onDestroyView.
@@ -149,10 +150,10 @@ class HarmoniumFragment : Fragment() {
             .document(user.uid).collection(collection)
         val query = ref.orderBy("timestamp",Query.Direction.DESCENDING)
         val options = FirestoreRecyclerOptions.Builder<Note>()
-            .setQuery(query,Note::class.java).build()
+            .setQuery(query, Note::class.java).build()
         noteAdapter = NoteAdapter(requireContext(),options,collection)
 
-        recyclerView(user,list,requireContext(),collection,noteAdapter)
+        recyclerView(list, requireContext(), noteAdapter)
 
         addnote.setOnClickListener{
             addNotes(requireContext(),collection,addnote,note,user)
@@ -186,19 +187,22 @@ class HarmoniumFragment : Fragment() {
 
     }
 fun addNotes(context: Context, collection: String, addNote:FloatingActionButton, note:AppCompatEditText, user: FirebaseUser) {
+
     addNote.setOnClickListener{
 
         if(note.text.isNullOrEmpty()){
             Toast.makeText(context,"Note is empty",Toast.LENGTH_SHORT).show()
         }
         else{
-            val noteSave  = Note(note.text.toString(), Timestamp.now())
-
 
             val ref = FirebaseFirestore.getInstance().collection("Notes")
                 .document(user.uid).collection(collection)
 
-            ref.document().set(noteSave).addOnCompleteListener { p0 ->
+            val docId= ref.document().id
+
+            val noteSave  = Note(note.text.toString(), Timestamp.now(), docId)
+
+            ref.document(docId).set(noteSave).addOnCompleteListener { p0 ->
                 if (p0.isSuccessful) {
                     Toast.makeText(context, "Note added", Toast.LENGTH_SHORT).show()
                     note.text!!.clear()
@@ -210,9 +214,13 @@ fun addNotes(context: Context, collection: String, addNote:FloatingActionButton,
     }
 }
 
-fun recyclerView(user: FirebaseUser,harmoList:RecyclerView,context: Context,collection: String,noteAdapter: NoteAdapter){
+fun recyclerView(
+    list: RecyclerView,
+    context: Context,
+    noteAdapter: NoteAdapter
+){
 
-    harmoList.layoutManager = LinearLayoutManager(context)
-    harmoList.adapter = noteAdapter
+    list.layoutManager = LinearLayoutManager(context)
+    list.adapter = noteAdapter
     noteAdapter.notifyDataSetChanged()
 }
