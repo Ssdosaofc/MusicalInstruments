@@ -26,6 +26,7 @@
         <TextView
             android:id="@+id/lesson"
             android:layout_width="wrap_content"
+            android:fontFamily="sans-serif-black"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_marginTop="45dp"
@@ -35,6 +36,7 @@
         <TextView
             android:id="@+id/desc"
             android:layout_width="wrap_content"
+            android:fontFamily="serif"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_marginTop="15dp"
@@ -113,5 +115,32 @@
 
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/linearLayout" />
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:id="@+id/zoom"
+        app:layout_constraintTop_toTopOf="@id/left"
+        app:layout_constraintEnd_toStartOf="@+id/left"
+        app:layout_constraintStart_toEndOf="@+id/right">
+        <Button
+            android:id="@+id/zoombutton"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:background="@drawable/fullscreen_svgrepo_com"
+            android:foreground="@drawable/fullscreen_svgrepo_com"
+            android:foregroundTint="@color/black"
+            app:layout_constraintTop_toBottomOf="@+id/linearLayout" />
+
+        <TextView
+            android:id="@+id/textView2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Zoom"
+            android:layout_gravity="center"
+            android:layout_marginStart="10dp"
+            />
+    </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

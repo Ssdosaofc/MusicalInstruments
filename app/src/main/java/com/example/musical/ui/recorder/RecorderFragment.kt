@@ -27,9 +27,7 @@ class RecorderFragment : Fragment() {
         _binding = FragmentRecorderBinding.inflate(inflater, container, false)
         val root: View = binding.root
 
-
-
-
+        
         return root
     }
 

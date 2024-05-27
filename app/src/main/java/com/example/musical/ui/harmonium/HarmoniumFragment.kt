@@ -1,16 +1,19 @@
 package com.example.musical.ui.harmonium
 
 import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.LinearLayout
 import android.widget.Toast
 import androidx.appcompat.widget.AppCompatEditText
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.musical.ZoomActivity
 import com.example.musical.databinding.FragmentHaarmoniumBinding
 import com.example.musical.noteRecycler.Note
 import com.example.musical.noteRecycler.NoteAdapter
@@ -54,6 +57,7 @@ class HarmoniumFragment : Fragment() {
         var left = binding.left
         val lesson = binding.lesson
         val desc = binding.desc
+        val zoom = binding.zoom
         right.visibility=View.INVISIBLE
 
         youTubePlayerView.addYouTubePlayerListener(object : AbstractYouTubePlayerListener() {
@@ -136,6 +140,8 @@ class HarmoniumFragment : Fragment() {
                         }
                     }
                 }
+
+                openFullScreen(zoom,requireContext(), videoId)
             }
         })
 
@@ -223,4 +229,12 @@ fun recyclerView(
     list.layoutManager = LinearLayoutManager(context)
     list.adapter = noteAdapter
     noteAdapter.notifyDataSetChanged()
+}
+
+fun openFullScreen(linearLayout: LinearLayout, context: Context, videoId:String){
+    linearLayout.setOnClickListener{
+        val intent = Intent(context,ZoomActivity::class.java)
+        intent.putExtra("id",videoId)
+        context.startActivity(intent)
+    }
 }

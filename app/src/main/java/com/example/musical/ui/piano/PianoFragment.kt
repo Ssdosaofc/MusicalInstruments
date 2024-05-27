@@ -6,10 +6,11 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
-import com.example.musical.noteRecycler.Note
 import com.example.musical.databinding.FragmentPianoBinding
+import com.example.musical.noteRecycler.Note
 import com.example.musical.noteRecycler.NoteAdapter
 import com.example.musical.ui.harmonium.addNotes
+import com.example.musical.ui.harmonium.openFullScreen
 import com.example.musical.ui.harmonium.recyclerView
 import com.firebase.ui.firestore.FirestoreRecyclerOptions
 import com.google.firebase.auth.FirebaseAuth
@@ -44,8 +45,8 @@ class PianoFragment : Fragment() {
         var right = binding.right
         var left = binding.left
         val lesson = binding.lesson
-
         val desc = binding.desc
+        val zoom = binding.zoom
         right.visibility=View.INVISIBLE
 
         youTubePlayerView.addYouTubePlayerListener(object : AbstractYouTubePlayerListener() {
@@ -128,6 +129,7 @@ class PianoFragment : Fragment() {
                         }
                     }
                 }
+                openFullScreen(zoom,requireContext(), videoId)
             }
         })
 
@@ -157,5 +159,21 @@ class PianoFragment : Fragment() {
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+    }
+
+    override fun onStart() {
+        super.onStart()
+        noteAdapter.startListening()
+
+    }
+
+    override fun onStop() {
+        super.onStop()
+        noteAdapter.stopListening()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        noteAdapter.notifyDataSetChanged()
     }
 }

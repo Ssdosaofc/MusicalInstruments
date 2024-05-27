@@ -26,6 +26,7 @@
                 android:layout_margin="5dp"
                 android:ellipsize="end"
                 android:maxLines="2"
+                android:fontFamily="casual"
                 android:text="Content"
                 android:textColor="@color/black"
                 android:textSize="15sp"

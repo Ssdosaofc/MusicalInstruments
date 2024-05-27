@@ -30,6 +30,7 @@
             android:layout_gravity="center"
             android:layout_marginTop="45dp"
             android:text="Lesson 1"
+            android:fontFamily="sans-serif-black"
             android:textSize="30sp" />
 
         <TextView
@@ -37,6 +38,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
+            android:fontFamily="serif"
             android:layout_marginTop="15dp"
             android:text="Introduction to Harmonium"
             android:textSize="15sp" />
@@ -114,5 +116,32 @@
 
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/linearLayout" />
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:id="@+id/zoom"
+        app:layout_constraintEnd_toStartOf="@+id/left"
+        app:layout_constraintStart_toEndOf="@+id/right"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout">
+
+        <Button
+            android:id="@+id/zoombutton"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:background="@drawable/fullscreen_svgrepo_com"
+            android:foreground="@drawable/fullscreen_svgrepo_com"
+            android:foregroundTint="@color/black"
+            app:layout_constraintTop_toBottomOf="@+id/linearLayout" />
+
+        <TextView
+            android:id="@+id/textView2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginStart="10dp"
+            android:text="Zoom" />
+    </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
