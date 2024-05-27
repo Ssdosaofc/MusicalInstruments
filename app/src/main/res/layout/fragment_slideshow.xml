@@ -30,7 +30,7 @@
 
             android:layout_gravity="center"
             android:fontFamily="sans-serif-black"
-            android:layout_marginTop="45dp"
+            android:layout_marginTop="20dp"
             android:text="Lesson 1"
             android:textSize="30sp" />
 
