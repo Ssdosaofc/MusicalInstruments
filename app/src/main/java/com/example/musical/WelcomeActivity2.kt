@@ -3,22 +3,33 @@ package com.example.musical
 import android.content.Intent
 import android.os.Bundle
 import android.widget.Button
+import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowInsetsCompat
 import com.google.firebase.auth.FirebaseAuth
 
-class WelcomeActivity : AppCompatActivity() {
+class WelcomeActivity2 : AppCompatActivity() {
     private lateinit var auth: FirebaseAuth
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_welcome)
+        enableEdgeToEdge()
+        setContentView(R.layout.activity_welcome2)
+        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
+            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
+            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
+            insets
+        }
 
-        val button: Button = findViewById(R.id.button2)
+        val button: Button = findViewById(R.id.getstarted)
 
         button.setOnClickListener {
-            val intent = Intent(this, WelcomeActivity2::class.java)
+            val intent = Intent(this, LoginActivity::class.java)
             startActivity(intent)
             finish()
         }
+
+
     }
 
     override fun onStart() {
