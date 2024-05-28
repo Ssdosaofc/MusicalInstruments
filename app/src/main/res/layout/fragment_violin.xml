@@ -23,15 +23,35 @@
             app:autoPlay="false"
             app:videoId="iPbCdOsrDK4" />
 
-        <TextView
-            android:id="@+id/lesson"
+        <LinearLayout
             android:layout_width="wrap_content"
-            android:fontFamily="sans-serif-black"
             android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:orientation="horizontal"
             android:layout_gravity="center"
-            android:layout_marginTop="20dp"
-            android:text="Lesson 1"
-            android:textSize="30sp" />
+            app:layout_constraintTop_toTopOf="@id/left"
+            app:layout_constraintEnd_toStartOf="@+id/left"
+            app:layout_constraintStart_toEndOf="@+id/right">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:fontFamily="sans-serif-black"
+                android:layout_height="wrap_content"
+
+                android:text="Lesson 1"
+                android:textSize="30sp" />
+
+            <ImageButton
+                android:id="@+id/fav"
+                android:layout_width="25dp"
+                android:layout_gravity="center"
+                android:layout_height="25dp"
+                android:layout_marginStart="2dp"
+                android:layout_marginTop="3dp"
+                android:background=""
+                android:foreground="@drawable/baseline_favorite_border_24"
+                />
+        </LinearLayout>
 
         <TextView
             android:id="@+id/desc"
@@ -39,7 +59,7 @@
             android:fontFamily="serif"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:layout_marginTop="15dp"
+            android:layout_marginTop="5dp"
             android:text="How to hold the violin &amp; bow"
             android:textSize="15sp" />
     </LinearLayout>
@@ -142,6 +162,5 @@
             android:layout_marginStart="10dp"
             />
     </LinearLayout>
-
 
 </androidx.constraintlayout.widget.ConstraintLayout>
