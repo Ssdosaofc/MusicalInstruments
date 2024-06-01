@@ -1,23 +1,27 @@
 package com.example.musical.ui.violin
 
 import android.os.Bundle
+import android.text.Html
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
+import android.widget.LinearLayout
+import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.viewpager.widget.ViewPager
+import com.example.musical.R
+import com.example.musical.ViewPagerAdapter
 import com.example.musical.databinding.FragmentViolinBinding
 import com.example.musical.noteRecycler.Note
 import com.example.musical.noteRecycler.NoteAdapter
 import com.example.musical.ui.harmonium.addNotes
-import com.example.musical.ui.harmonium.openFullScreen
 import com.example.musical.ui.harmonium.recyclerView
 import com.firebase.ui.firestore.FirestoreRecyclerOptions
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.Query
-import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.YouTubePlayer
-import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.listeners.AbstractYouTubePlayerListener
 
 class ViolinFragment : Fragment() {
 
@@ -26,6 +30,11 @@ class ViolinFragment : Fragment() {
     // This property is only valid between onCreateView and
     // onDestroyView.
     private lateinit var noteAdapter:NoteAdapter
+    private lateinit var viewPager:ViewPager
+    private lateinit var layout: LinearLayout
+    private lateinit var right: Button
+    private lateinit var left: Button
+    private lateinit var adapter:ViewPagerAdapter
     private val binding get() = _binding!!
 
     override fun onCreateView(
@@ -39,107 +48,45 @@ class ViolinFragment : Fragment() {
         _binding = FragmentViolinBinding.inflate(inflater, container, false)
         val root: View = binding.root
 
-        val youTubePlayerView = binding.tab1
-        lifecycle.addObserver(youTubePlayerView)
+        right = binding.right
+        left = binding.left
 
-        var right = binding.right
-        var left = binding.left
-        val lesson = binding.lesson
-        val desc = binding.desc
-        val zoom = binding.zoom
-        right.visibility=View.INVISIBLE
+        layout = binding.indicatorLayout
+        viewPager = binding.linearLayout
 
-        youTubePlayerView.addYouTubePlayerListener(object : AbstractYouTubePlayerListener() {
-            override fun onReady(youTubePlayer: YouTubePlayer) {
-                var videoId = "iPbCdOsrDK4"
-                youTubePlayer.loadVideo(videoId, 0f)
+        val collection = "Violin"
+        adapter = ViewPagerAdapter(collection,requireContext())
 
+        viewPager.adapter = adapter
 
-                left.setOnClickListener {
-                    when (videoId) {
-                        "iPbCdOsrDK4" -> {
-                            videoId = "k2pxLr13ve4"
-                            youTubePlayer.loadVideo(videoId, 0f)
-                            lesson.text = "Lesson 2"
-                            desc.text = "Parts of the violin"
-                            right.visibility=View.VISIBLE
-                            left.visibility=View.VISIBLE
-                        }
-                        "2JASyzvQWpM" -> {
-                            lesson.text = "Lesson 3"
-                            videoId = "3OaBwXc_fP4"
-                            youTubePlayer.loadVideo(videoId, 0f)
-                            desc.text = "Names of strings & other notes"
-                            right.visibility=View.VISIBLE
-                            left.visibility=View.VISIBLE
-                        }
-                        "3OaBwXc_fP4" -> {
-                            videoId = "dBqnxJYKRqQ"
-                            youTubePlayer.loadVideo(videoId, 0f)
-                            lesson.text = "Lesson 4"
-                            desc.text = "How and where to bow"
-                            right.visibility=View.VISIBLE
-                            left.visibility=View.VISIBLE
-                        }
-                        "dBqnxJYKRqQ" -> {
-                            videoId = "JdBUYDjITHE"
-                            youTubePlayer.loadVideo(videoId, 0f)
-                            lesson.text = "Lesson 5"
-                            desc.text = "Learning the open string notes"
-                            left.visibility=View.INVISIBLE
-                            right.visibility=View.VISIBLE
-                        }
-                    }
+        right.setOnClickListener(object : View.OnClickListener {
+            override fun onClick(v: View?) {
+                if (getItem(0)>0){
+                    viewPager.setCurrentItem(getItem(-1),true)
                 }
-
-                right.setOnClickListener {
-                    when (videoId) {
-                        "k2pxLr13ve4" -> {
-                            videoId = "iPbCdOsrDK4"
-                            youTubePlayer.loadVideo(videoId, 0f)
-                            lesson.text = "Lesson 1"
-                            desc.text = "How to hold the violin & bow"
-                            right.visibility=View.INVISIBLE
-                            left.visibility=View.VISIBLE
-                        }
-                        "3OaBwXc_fP4" -> {
-                            videoId = "k2pxLr13ve4"
-                            lesson.text = "Lesson 2"
-                            youTubePlayer.loadVideo(videoId, 0f)
-
-                            desc.text = "Parts of the violin"
-                            right.visibility=View.VISIBLE
-                            left.visibility=View.VISIBLE
-                        }
-                        "dBqnxJYKRqQ" -> {
-                            lesson.text = "Lesson 3"
-                            videoId = "3OaBwXc_fP4"
-                            youTubePlayer.loadVideo(videoId, 0f)
-                            desc.text = "Names of strings & other notes"
-                            right.visibility=View.VISIBLE
-                            left.visibility=View.VISIBLE
-                        }
-                        "JdBUYDjITHE" -> {
-                            videoId = "dBqnxJYKRqQ"
-                            youTubePlayer.loadVideo(videoId, 0f)
-                            lesson.text = "Lesson 4"
-                            desc.text = "How and where to bow "
-                            right.visibility=View.VISIBLE
-                            left.visibility=View.VISIBLE
-                        }
-                    }
-                }
-
-                openFullScreen(zoom,requireContext(), videoId)
             }
+
         })
+        left.setOnClickListener(object : View.OnClickListener {
+            override fun onClick(v: View?) {
+                if (getItem(0)<4){
+                    viewPager.setCurrentItem(getItem(1),true)
+
+                }
+            }
+
+        })
+
+        setupIndicator(0)
+        viewPager.addOnPageChangeListener(viewListener)
+
 
         val addnote = binding.tick
         val note = binding.note
         val list = binding.list
         val user= FirebaseAuth.getInstance().currentUser!!
 
-        val collection = "Violin"
+
 
         val ref = FirebaseFirestore.getInstance().collection("Notes")
             .document(user.uid).collection(collection)
@@ -160,6 +107,7 @@ class ViolinFragment : Fragment() {
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+        viewPager.adapter = null
     }
 
     override fun onStart() {
@@ -176,5 +124,52 @@ class ViolinFragment : Fragment() {
     override fun onResume() {
         super.onResume()
         noteAdapter.notifyDataSetChanged()
+    }
+
+    fun setupIndicator(position:Int){
+        val dots = arrayOfNulls<TextView?>(5)
+        layout.removeAllViews()
+        for (i in dots.indices){
+            dots[i] = TextView(context)
+            dots[i]?.text = Html.fromHtml("&#8226", Html.FROM_HTML_MODE_LEGACY)
+            dots[i]?.textSize = 30F
+            dots[i]?.setTextColor(resources.getColor(R.color.inactive, context?.theme))
+            layout.addView(dots[i])
+        }
+        dots[position]?.setTextColor(resources.getColor(R.color.brown, context?.theme))
+    }
+
+    val viewListener = object : ViewPager.OnPageChangeListener {
+        override fun onPageScrolled(
+            position: Int,
+            positionOffset: Float,
+            positionOffsetPixels: Int
+        ) {
+            return
+        }
+
+        override fun onPageSelected(position: Int) {
+            setupIndicator(position)
+            if (position>0){
+                right.visibility = View.VISIBLE
+            }else{
+                right.visibility = View.INVISIBLE
+            }
+
+            if (position<4){
+                left.visibility = View.VISIBLE
+            }else{
+                left.visibility = View.INVISIBLE
+            }
+        }
+
+        override fun onPageScrollStateChanged(state: Int) {
+            return
+        }
+
+    }
+
+    fun getItem(i:Int): Int {
+        return viewPager.currentItem + i
     }
 }
