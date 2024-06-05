@@ -2,6 +2,7 @@ package com.example.musical
 
 import android.content.Intent
 import android.os.Bundle
+import android.widget.TextView
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.cardview.widget.CardView
@@ -26,47 +27,62 @@ class ChooseActivity : AppCompatActivity() {
         val tabla = findViewById<CardView>(R.id.cardView5)
         val harmonium = findViewById<CardView>(R.id.cardView6)
         val vocals = findViewById<CardView>(R.id.cardView7)
+        val rec = findViewById<TextView>(R.id.record)
 
         guitar.setOnClickListener{
            val intent =Intent(this,MainActivity::class.java)
             intent.putExtra("fragment","guitar")
             startActivity(intent)
+            overridePendingTransition(R.anim.slide_right,R.anim.slide_left_out)
             finish()
         }
         keyboard.setOnClickListener{
            val intent =Intent(this,MainActivity::class.java)
             intent.putExtra("fragment","keyboard")
             startActivity(intent)
+            overridePendingTransition(R.anim.slide_right,R.anim.slide_left_out)
             finish()
         }
         piano.setOnClickListener{
            val intent =Intent(this,MainActivity::class.java)
             intent.putExtra("fragment","piano")
             startActivity(intent)
+            overridePendingTransition(R.anim.slide_right,R.anim.slide_left_out)
             finish()
         }
         violin.setOnClickListener{
            val intent =Intent(this,MainActivity::class.java)
             intent.putExtra("fragment","violin")
             startActivity(intent)
+            overridePendingTransition(R.anim.slide_right,R.anim.slide_left_out)
             finish()
         }
         tabla.setOnClickListener{
            val intent =Intent(this,MainActivity::class.java)
             intent.putExtra("fragment","tabla")
             startActivity(intent)
+            overridePendingTransition(R.anim.slide_right,R.anim.slide_left_out)
             finish()
         }
         harmonium.setOnClickListener{
            val intent =Intent(this,MainActivity::class.java)
             intent.putExtra("fragment","harmonium")
             startActivity(intent)
+            overridePendingTransition(R.anim.slide_right,R.anim.slide_left_out)
             finish()
         }
         vocals.setOnClickListener{
            val intent =Intent(this,MainActivity::class.java)
             intent.putExtra("fragment","vocals")
             startActivity(intent)
+            overridePendingTransition(R.anim.slide_right,R.anim.slide_left_out)
+            finish()
+        }
+        rec.setOnClickListener{
+           val intent =Intent(this,MainActivity::class.java)
+            intent.putExtra("fragment","recorder")
+            startActivity(intent)
+            overridePendingTransition(R.anim.slide_right,R.anim.slide_left_out)
             finish()
         }
     }

@@ -18,7 +18,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager.widget.ViewPager
 import com.example.musical.R
-import com.example.musical.ViewPagerAdapter
+import com.example.musical.viewPager.ViewPagerAdapter
 import com.example.musical.databinding.FragmentHaarmoniumBinding
 import com.example.musical.noteRecycler.Note
 import com.example.musical.noteRecycler.NoteAdapter
@@ -40,7 +40,7 @@ class HarmoniumFragment : Fragment() {
     private lateinit var layout: LinearLayout
     private lateinit var right:Button
     private lateinit var left:Button
-    private lateinit var adapter:ViewPagerAdapter
+    private lateinit var adapter: ViewPagerAdapter
     // This property is only valid between onCreateView and
     // onDestroyView.
     private val binding get() = _binding!!
@@ -61,6 +61,7 @@ class HarmoniumFragment : Fragment() {
 
         right = binding.right
         left = binding.left
+        right.visibility = View.INVISIBLE
 
 //        youTubePlayerView.addYouTubePlayerListener(object : AbstractYouTubePlayerListener() {
 //            override fun onReady(youTubePlayer: YouTubePlayer) {
@@ -211,34 +212,24 @@ class HarmoniumFragment : Fragment() {
         dots[position]?.setTextColor(resources.getColor(R.color.brown, context?.theme))
     }
 
-    val viewListener = object : ViewPager.OnPageChangeListener {
+    private val viewListener = object : ViewPager.OnPageChangeListener {
         override fun onPageScrolled(
             position: Int,
             positionOffset: Float,
             positionOffsetPixels: Int
         ) {
-            return
+            // No-op
         }
 
         override fun onPageSelected(position: Int) {
             setupIndicator(position)
-            if (position>0){
-                right.visibility = View.VISIBLE
-            }else{
-                right.visibility = View.INVISIBLE
-            }
-
-            if (position<4){
-                left.visibility = View.VISIBLE
-            }else{
-                left.visibility = View.INVISIBLE
-            }
+            left.visibility = if (position < adapter.count - 1) View.VISIBLE else View.INVISIBLE
+            right.visibility = if (position > 0) View.VISIBLE else View.INVISIBLE
         }
 
         override fun onPageScrollStateChanged(state: Int) {
-            return
+            // No-op
         }
-
     }
 
     fun getItem(i:Int): Int {

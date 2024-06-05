@@ -26,13 +26,19 @@ class WelcomeActivity2 : AppCompatActivity() {
         button.setOnClickListener {
             val intent = Intent(this, LoginActivity::class.java)
             startActivity(intent)
+            overridePendingTransition(R.anim.slide_right,R.anim.slide_left_out)
             finish()
         }
 
 
     }
 
-    override fun onStart() {
+    override fun finish() {
+        super.finish()
+        overridePendingTransition(R.anim.slide_left, R.anim.slide_right_out)
+    }
+
+        override fun onStart() {
         super.onStart()
         auth= FirebaseAuth.getInstance()
         val currentUser = auth.currentUser

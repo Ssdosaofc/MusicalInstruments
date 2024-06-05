@@ -1,4 +1,4 @@
-package com.example.musical
+package com.example.musical.viewPager
 
 import android.content.Context
 import android.content.Intent
@@ -11,14 +11,19 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.viewpager.widget.PagerAdapter
+import com.example.musical.R
+import com.example.musical.ZoomActivity
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.ValueEventListener
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.YouTubePlayer
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.listeners.AbstractYouTubePlayerListener
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.views.YouTubePlayerView
 
-
+data class Video(val collection: String="",val videoId: String="",val lesson:String="",val desc:String="",var isFav:Boolean=false)
 class ViewPagerAdapter(val collection: String,val context: Context): PagerAdapter() {
     val lesson = listOf("Lesson 1", "Lesson 2", "Lesson 3", "Lesson 4", "Lesson 5")
     val videoID = listOf("2xtDFynxxbA", "nfju0uiRlu8", "0toFIyCVJaA", "dS62BFegwZA", "rw7JiQ1lFh4")
@@ -37,7 +42,7 @@ class ViewPagerAdapter(val collection: String,val context: Context): PagerAdapte
         "VCIsdvZheC8"
     )
     val descG = listOf(
-        "Introduction to Harmonium",
+        "Introduction",
         "EASY 2 CHORD SONG & LEAD GUITAR",
         "'Three Little Birds' Guitar Tutorial",
         "Your First Riff!",
@@ -51,7 +56,7 @@ class ViewPagerAdapter(val collection: String,val context: Context): PagerAdapte
         "Vl-VCmocaOs"
     )
     val descK = listOf(
-        "Introduction to Harmonium",
+        "Introduction",
         "Learn to Read Music in 15 minutes",
         "12 Piano Exercises for Beginners Recommended by Professional Pianists",
         "Top Beginner Piano Tips for Success",
@@ -65,7 +70,7 @@ class ViewPagerAdapter(val collection: String,val context: Context): PagerAdapte
         "rUqKWy9SvhI"
     )
     val descP = listOf(
-        "Introduction to Harmonium",
+        "Introduction",
         "Interesting chord accompaniment patterns",
         "More important chords you should know",
         "What About the Left Hand?",
@@ -79,7 +84,7 @@ class ViewPagerAdapter(val collection: String,val context: Context): PagerAdapte
         "vW918hOHD9Q"
     )
     val descT = listOf(
-        "Introduction to Harmonium",
+        "Introduction",
         "Basic Tabla Bols Playing Techniques",
         "Concept of Khuli, Mudi and Kayeda",
         "Practice of Dha Terekete Tak",
@@ -107,7 +112,7 @@ class ViewPagerAdapter(val collection: String,val context: Context): PagerAdapte
         "PnMcoV5xpXM"
     )
     val descVo = listOf(
-        "Introduction to Harmonium",
+        "Introduction",
         "How to play Sa Re Ga Ma Pa on Harmonium",
         "Find your own Singing Scale",
         "Holding Notes Practice",
@@ -115,7 +120,16 @@ class ViewPagerAdapter(val collection: String,val context: Context): PagerAdapte
     )
 
     override fun getCount(): Int {
-        return videoID.size
+        return when (collection) {
+            "Harmonium" -> videoID.size
+            "Guitar" -> videoIDG.size
+            "Keyboard" -> videoIDK.size
+            "Piano" -> videoIDP.size
+            "Tabla" -> videoIDT.size
+            "Violin" -> videoIDV.size
+            "Vocals" -> videoIDVo.size
+            else -> 0
+        }
     }
 
     override fun isViewFromObject(view: View, `object`: Any): Boolean {
@@ -123,8 +137,9 @@ class ViewPagerAdapter(val collection: String,val context: Context): PagerAdapte
     }
 
     override fun instantiateItem(container: ViewGroup, position: Int): Any {
-        val layoutInflater = context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
-        val view = layoutInflater.inflate(R.layout.slider_layout,container,false)
+        val layoutInflater =
+            context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
+        val view = layoutInflater.inflate(R.layout.slider_layout, container, false)
 
         val youTubePlayerView = view.findViewById<YouTubePlayerView>(R.id.tab1)
         val lessonSlider = view.findViewById<TextView>(R.id.lesson)
@@ -132,92 +147,98 @@ class ViewPagerAdapter(val collection: String,val context: Context): PagerAdapte
         val favButton = view.findViewById<ImageButton>(R.id.fav)
         val zoomButton = view.findViewById<LinearLayout>(R.id.zoom)
 
-        lessonSlider.setText(lesson[position])
-        when(collection){
-            "harmonium"->{
-                descSlider.setText(desc[position])
-            }
-            "guitar"->{
-                descSlider.setText(descG[position])
-            }
-            "keyboard"->{
-                descSlider.setText(descK[position])
-            }
-            "piano"->{
-                descSlider.setText(descP[position])
-            }
-            "tabla"->{
-                descSlider.setText(descT[position])
-            }
-            "violin"->{
-                descSlider.setText(descV[position])
-            }
-            "vocals"->{
-                descSlider.setText(descVo[position])
+        lessonSlider.text = lesson[position]
+        val videoId: String
+        val description: String
+
+        when (collection) {
+            "Harmonium" -> {
+                videoId = videoID[position]
+                description = desc[position]
             }
 
+            "Guitar" -> {
+                videoId = videoIDG[position]
+                description = descG[position]
+            }
+
+            "Keyboard" -> {
+                videoId = videoIDK[position]
+                description = descK[position]
+            }
+
+            "Piano" -> {
+                videoId = videoIDP[position]
+                description = descP[position]
+            }
+
+            "Tabla" -> {
+                videoId = videoIDT[position]
+                description = descT[position]
+            }
+
+            "Violin" -> {
+                videoId = videoIDV[position]
+                description = descV[position]
+            }
+
+            "Vocals" -> {
+                videoId = videoIDVo[position]
+                description = descVo[position]
+            }
+
+            else -> {
+                videoId = ""
+                description = ""
+            }
         }
 
-        youTubePlayerView.addYouTubePlayerListener(object : AbstractYouTubePlayerListener() {
-            override fun onReady(youTubePlayer: YouTubePlayer) {
-                when(collection){
-                    "harmonium"->{
-                        youTubePlayer.loadVideo(videoID[position], 0f)
-                        openFullScreen(zoomButton,context,videoID[position])
-                    }
-                    "guitar"->{
-                        youTubePlayer.loadVideo(videoIDG[position], 0f)
-                        openFullScreen(zoomButton,context,videoIDG[position])
-                    }
-                    "keyboard"->{
-                        youTubePlayer.loadVideo(videoIDK[position], 0f)
-                        openFullScreen(zoomButton,context,videoIDK[position])
-                    }
-                    "piano"->{
-                        youTubePlayer.loadVideo(videoIDP[position], 0f)
-                        openFullScreen(zoomButton,context,videoIDP[position])
-                    }
-                    "tabla"->{
-                        youTubePlayer.loadVideo(videoIDT[position], 0f)
-                        openFullScreen(zoomButton,context,videoIDT[position])
-                    }
-                    "violin"->{
-                        youTubePlayer.loadVideo(videoIDV[position], 0f)
-                        openFullScreen(zoomButton,context,videoIDV[position])
-                    }
-                    "vocals"->{
-                        youTubePlayer.loadVideo(videoIDVo[position], 0f)
-                        openFullScreen(zoomButton,context,videoIDVo[position])
-                    }
-                }
-            }
+        youtubePlayer(youTubePlayerView, context, videoId, zoomButton)
 
-        })
+        descSlider.text = description
 
+        val video = Video(collection,videoId, lessonSlider.text as String,description)
+
+        if (firebaseAuth.currentUser != null) {
+            checkIfFavourite(videoId,video,favButton)
+        }
+        favButton.setOnClickListener {
+            toggleFavoriteStatus(video,context)
+        }
         container.addView(view)
         return view
     }
 
+    /*
+    It seems like you're experiencing an issue where playing a video at a certain position also triggers
+    the video at the next position to play in the background. This could happen due to the recycling mechanism
+    of ViewPager, where it preloads adjacent views for smooth scrolling. To prevent this, you should stop the
+    playback of the video when the view is destroyed.
+     */
     override fun destroyItem(container: ViewGroup, position: Int, `object`: Any) {
-        container.removeView(`object` as ConstraintLayout)
-    }
-}
+        val view = `object` as ConstraintLayout
+        val youTubePlayerView = view.findViewById<YouTubePlayerView>(R.id.tab1)
+        youTubePlayerView.release()
 
-data class video(val videoId: String="",val lesson:String="",val desc:String="",var isFav:Boolean=false)
+        container.removeView(view)
+    }
+
+
+}
 
 val firebaseAuth: FirebaseAuth = FirebaseAuth.getInstance()
 val ref: DatabaseReference = FirebaseDatabase.getInstance().getReference("Users")
 
 fun openFullScreen(linearLayout: LinearLayout, context: Context, videoId:String){
     linearLayout.setOnClickListener{
-        val intent = Intent(context,ZoomActivity::class.java)
+        val intent = Intent(context, ZoomActivity::class.java)
         intent.putExtra("id",videoId)
         context.startActivity(intent)
     }
 }
-fun addToFavourite(context: Context,videoId: String,lesson:String,desc:String){
+fun addToFavourite(context: Context,videoId: String,lesson:String,desc:String,collection: String){
 
-    val video = video(videoId,lesson,desc)
+    val video = Video(collection,videoId,lesson,desc)
     ref.child(firebaseAuth.uid.toString()).child("Favourites")
         .child(videoId)
         .setValue(video)
@@ -240,6 +261,54 @@ fun removeFromFavourite(context: Context,videoId: String){
             Toast.makeText(context,"Could not remove from favourites", Toast.LENGTH_SHORT).show()
         }
 }
+
+fun checkIfFavourite(videoId: String, video: Video, favButton: ImageButton) {
+    val reference: DatabaseReference = FirebaseDatabase.getInstance().getReference("Users")
+
+    reference.child(firebaseAuth.uid.toString()).child("Favourites")
+        .child(videoId)
+        .addValueEventListener(object : ValueEventListener {
+            override fun onDataChange(dataSnapshot: DataSnapshot) {
+                val isInMyFavourite = dataSnapshot.exists()
+                video.isFav = isInMyFavourite
+                updateFavoriteButton(favButton,video)
+                //notifyItemChanged(position)
+
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+                // Handle error if needed
+            }
+        })
+}
+
+fun updateFavoriteButton(favButton:ImageButton,video: Video) {
+
+    if (video.isFav) {
+        favButton.setImageResource(R.drawable.baseline_favorite_24_white)
+    } else {
+        favButton.setImageResource(R.drawable.baseline_favorite_border_24)
+    }
+}
+
+fun toggleFavoriteStatus(video: Video,context: Context) {
+    if (video.isFav) {
+        removeFromFavourite(context, video.videoId)
+    } else {
+        addToFavourite(context,video.videoId,video.lesson,video.desc,video.collection)
+    }
+
+}
+fun youtubePlayer(youTubePlayerView:YouTubePlayerView,context: Context,videoId: String,zoomButton:LinearLayout){
+    youTubePlayerView.addYouTubePlayerListener(object : AbstractYouTubePlayerListener() {
+        override fun onReady(youTubePlayer: YouTubePlayer) {
+            youTubePlayer.loadVideo(videoId, 0f)
+            youTubePlayer.pause()
+            openFullScreen(zoomButton, context, videoId)
+        }
+    })
+}
+
 
 
 

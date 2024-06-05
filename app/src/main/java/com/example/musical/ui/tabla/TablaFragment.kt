@@ -12,7 +12,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.viewpager.widget.ViewPager
 import com.example.musical.R
-import com.example.musical.ViewPagerAdapter
+import com.example.musical.viewPager.ViewPagerAdapter
 import com.example.musical.databinding.FragmentTablaBinding
 import com.example.musical.noteRecycler.Note
 import com.example.musical.noteRecycler.NoteAdapter
@@ -35,7 +35,7 @@ class TablaFragment : Fragment() {
     private lateinit var layout: LinearLayout
     private lateinit var right: Button
     private lateinit var left: Button
-    private lateinit var adapter:ViewPagerAdapter
+    private lateinit var adapter: ViewPagerAdapter
     private val binding get() = _binding!!
 
     override fun onCreateView(
@@ -51,6 +51,7 @@ class TablaFragment : Fragment() {
 
         right = binding.right
         left = binding.left
+        right.visibility = View.INVISIBLE
 
         layout = binding.indicatorLayout
         viewPager = binding.linearLayout

@@ -12,13 +12,12 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.viewpager.widget.ViewPager
 import com.example.musical.R
-import com.example.musical.ViewPagerAdapter
+import com.example.musical.viewPager.ViewPagerAdapter
 import com.example.musical.databinding.FragmentGalleryBinding
 import com.example.musical.noteRecycler.Note
 import com.example.musical.noteRecycler.NoteAdapter
 import com.example.musical.ui.harmonium.addNotes
 import com.example.musical.ui.harmonium.recyclerView
-import com.example.musical.ui.recorder.RecorderViewModel
 import com.firebase.ui.firestore.FirestoreRecyclerOptions
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
@@ -35,7 +34,7 @@ class GuitarFragment : Fragment() {
     private lateinit var layout: LinearLayout
     private lateinit var right: Button
     private lateinit var left: Button
-    private lateinit var adapter:ViewPagerAdapter
+    private lateinit var adapter: ViewPagerAdapter
     private val binding get() = _binding!!
 
     override fun onCreateView(
@@ -44,13 +43,14 @@ class GuitarFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         val pianoViewModel =
-            ViewModelProvider(this).get(RecorderViewModel::class.java)
+            ViewModelProvider(this).get(GuitarViewModel::class.java)
 
         _binding = FragmentGalleryBinding.inflate(inflater, container, false)
         val root: View = binding.root
 
         right = binding.right
         left = binding.left
+        right.visibility = View.INVISIBLE
 
         layout = binding.indicatorLayout
         viewPager = binding.linearLayout
@@ -59,6 +59,7 @@ class GuitarFragment : Fragment() {
         adapter = ViewPagerAdapter(collection,requireContext())
 
         viewPager.adapter = adapter
+        
 
         right.setOnClickListener {
             if (getItem(0) > 0) {

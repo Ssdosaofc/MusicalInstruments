@@ -12,6 +12,8 @@ import androidx.navigation.ui.navigateUp
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import com.example.musical.databinding.ActivityMainBinding
+import com.example.musical.favourite.FavActivity
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.navigation.NavigationView
 import com.google.firebase.auth.FirebaseAuth
 
@@ -57,8 +59,9 @@ class MainActivity : AppCompatActivity() {
 
         if (intent.hasExtra("fragment")){
             val fragmentToOpen = intent.getStringExtra("fragment")
-            val fragmentTransaction = supportFragmentManager.beginTransaction()
+//            val fragmentTransaction = supportFragmentManager.beginTransaction()
             when (fragmentToOpen) {
+                "recorder"-> navController.navigate(R.id.nav_Rec)
                 "guitar" -> navController.navigate(R.id.nav_Guitar)
                 "keyboard" -> navController.navigate(R.id.nav_Keyboard)
                 "piano" -> navController.navigate(R.id.nav_Piano)
@@ -67,10 +70,14 @@ class MainActivity : AppCompatActivity() {
                 "harmonium" -> navController.navigate(R.id.nav_Harmonium)
                 "vocals" -> navController.navigate(R.id.nav_Vocals)
             }
-            fragmentTransaction.commit()
+//            fragmentTransaction.commit()
         }
 
-
+        val favButton = findViewById<FloatingActionButton>(R.id.fab)
+        favButton.setOnClickListener{
+            val intent = Intent(this,FavActivity::class.java)
+            startActivity(intent)
+        }
 
     }
 

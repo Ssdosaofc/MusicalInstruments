@@ -7,7 +7,7 @@
         <item
             android:id="@+id/nav_Rec"
             android:icon="@drawable/baseline_content_mic_24"
-            android:title="Record your own Music" />
+            android:title="Audio Classifier" />
 
         <item
             android:id="@+id/nav_Guitar"

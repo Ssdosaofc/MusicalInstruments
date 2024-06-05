@@ -10,6 +10,7 @@ import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.listeners.Abs
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.views.YouTubePlayerView
 
 class ZoomActivity : AppCompatActivity() {
+    private lateinit var youTubePlayerView:YouTubePlayerView
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
@@ -20,7 +21,7 @@ class ZoomActivity : AppCompatActivity() {
             insets
         }
 
-        val youTubePlayerView = findViewById<YouTubePlayerView>(R.id.tab1)
+        youTubePlayerView = findViewById(R.id.tab1)
         val videoId = intent.getStringExtra("id")
 
         youTubePlayerView.addYouTubePlayerListener(object : AbstractYouTubePlayerListener() {

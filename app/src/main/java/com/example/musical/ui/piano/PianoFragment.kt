@@ -9,10 +9,9 @@ import android.widget.Button
 import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
 import androidx.viewpager.widget.ViewPager
 import com.example.musical.R
-import com.example.musical.ViewPagerAdapter
+import com.example.musical.viewPager.ViewPagerAdapter
 import com.example.musical.databinding.FragmentPianoBinding
 import com.example.musical.noteRecycler.Note
 import com.example.musical.noteRecycler.NoteAdapter
@@ -34,73 +33,64 @@ class PianoFragment : Fragment() {
     private lateinit var layout: LinearLayout
     private lateinit var right: Button
     private lateinit var left: Button
-    private lateinit var adapter:ViewPagerAdapter
+    private lateinit var adapter: ViewPagerAdapter
     private val binding get() = _binding!!
-
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        val pianoViewModel =
-            ViewModelProvider(this).get(PianoViewModel::class.java)
-
         _binding = FragmentPianoBinding.inflate(inflater, container, false)
-        val root: View = binding.root
+        return binding.root
+    }
 
-        var right = binding.right
-        var left = binding.left
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        right = binding.right
+        left = binding.left
+        right.visibility = View.INVISIBLE
+
         layout = binding.indicatorLayout
         viewPager = binding.linearLayout
+
         val collection = "Piano"
-        adapter = ViewPagerAdapter(collection,requireContext())
+        adapter = ViewPagerAdapter(collection, requireContext())
 
         viewPager.adapter = adapter
 
-        right.setOnClickListener(object : View.OnClickListener {
-            override fun onClick(v: View?) {
-                if (getItem(0)>0){
-                    viewPager.setCurrentItem(getItem(-1),true)
-                }
+        left.setOnClickListener {
+            if (getItem(1) < adapter.count) {
+                viewPager.setCurrentItem(getItem(1), true)
             }
+        }
 
-        })
-        left.setOnClickListener(object : View.OnClickListener {
-            override fun onClick(v: View?) {
-                if (getItem(0)<4){
-                    viewPager.setCurrentItem(getItem(1),true)
-
-                }
+        right.setOnClickListener {
+            if (getItem(-1) >= 0) {
+                viewPager.setCurrentItem(getItem(-1), true)
             }
-
-        })
+        }
 
         setupIndicator(0)
         viewPager.addOnPageChangeListener(viewListener)
 
-
-
         val addnote = binding.tick
         val note = binding.note
         val list = binding.list
-        val user= FirebaseAuth.getInstance().currentUser!!
-
-
+        val user = FirebaseAuth.getInstance().currentUser!!
 
         val ref = FirebaseFirestore.getInstance().collection("Notes")
             .document(user.uid).collection(collection)
         val query = ref.orderBy("timestamp", Query.Direction.DESCENDING)
         val options = FirestoreRecyclerOptions.Builder<Note>()
             .setQuery(query, Note::class.java).build()
-        noteAdapter = NoteAdapter(requireContext(),options,collection)
+        noteAdapter = NoteAdapter(requireContext(), options, collection)
 
         recyclerView(list, requireContext(), noteAdapter)
 
-        addnote.setOnClickListener{
-            addNotes(requireContext(),collection,addnote,note,user)
+        addnote.setOnClickListener {
+            addNotes(requireContext(), collection, addnote, note, user)
         }
-
-        return root
     }
 
     override fun onDestroyView() {
