@@ -1,9 +1,11 @@
 package com.example.musical
 
 import android.content.Intent
+import android.os.Build
 import android.os.Bundle
 import android.view.Menu
 import android.widget.TextView
+import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.navigation.findNavController
@@ -11,19 +13,26 @@ import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.navigateUp
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
+import com.example.musical.auth.LoginActivity
 import com.example.musical.databinding.ActivityMainBinding
 import com.example.musical.favourite.FavActivity
+import com.google.android.gms.auth.api.signin.GoogleSignIn
+import com.google.android.gms.auth.api.signin.GoogleSignInClient
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.navigation.NavigationView
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.GoogleAuthProvider
 
 class MainActivity : AppCompatActivity() {
 
     private lateinit var appBarConfiguration: AppBarConfiguration
     private lateinit var binding: ActivityMainBinding
+    private lateinit var googleSignInClient: GoogleSignInClient
 
     var auth: FirebaseAuth = FirebaseAuth.getInstance()
 
+    @RequiresApi(Build.VERSION_CODES.UPSIDE_DOWN_CAKE)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -75,8 +84,9 @@ class MainActivity : AppCompatActivity() {
 
         val favButton = findViewById<FloatingActionButton>(R.id.fab)
         favButton.setOnClickListener{
-            val intent = Intent(this,FavActivity::class.java)
+            val intent = Intent(this, FavActivity::class.java)
             startActivity(intent)
+            overrideActivityTransition(OVERRIDE_TRANSITION_OPEN,R.anim.slide_left,R.anim.slide_left_out)
         }
 
     }
@@ -85,13 +95,32 @@ class MainActivity : AppCompatActivity() {
         // Inflate the menu; this adds items to the action bar if it is present.
         menuInflater.inflate(R.menu.main, menu)
 
+        val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+            .requestIdToken("959276791185")
+            .requestEmail()
+            .build()
+
+        googleSignInClient = GoogleSignIn.getClient(this, gso)
+
         val signOut = menu.findItem(R.id.action_settings)
 
         signOut.setOnMenuItemClickListener {
-            auth.signOut()
-            val intent = Intent(this, LoginActivity::class.java)
-            startActivity(intent)
-            finish()
+            val user = auth.currentUser
+            if (user != null) {
+                if (user.providerData.any { it.providerId == GoogleAuthProvider.PROVIDER_ID }) {
+                    auth.signOut()
+                    googleSignInClient.signOut().addOnCompleteListener(this) {
+                        val intent = Intent(this, LoginActivity::class.java)
+                        startActivity(intent)
+                        finish()
+                    }
+                } else {
+                    auth.signOut()
+                    val intent = Intent(this, LoginActivity::class.java)
+                    startActivity(intent)
+                    finish()
+                }
+            }
             true
         }
         return true

@@ -2,6 +2,8 @@ package com.example.musical.viewPager
 
 import android.content.Context
 import android.content.Intent
+import android.os.Handler
+import android.os.Looper
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -13,6 +15,7 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.viewpager.widget.PagerAdapter
 import com.example.musical.R
 import com.example.musical.ZoomActivity
+import com.example.musical.favourite.Video
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
@@ -23,7 +26,6 @@ import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.YouTubePlayer
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.listeners.AbstractYouTubePlayerListener
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.views.YouTubePlayerView
 
-data class Video(val collection: String="",val videoId: String="",val lesson:String="",val desc:String="",var isFav:Boolean=false)
 class ViewPagerAdapter(val collection: String,val context: Context): PagerAdapter() {
     val lesson = listOf("Lesson 1", "Lesson 2", "Lesson 3", "Lesson 4", "Lesson 5")
     val videoID = listOf("2xtDFynxxbA", "nfju0uiRlu8", "0toFIyCVJaA", "dS62BFegwZA", "rw7JiQ1lFh4")
@@ -193,7 +195,8 @@ class ViewPagerAdapter(val collection: String,val context: Context): PagerAdapte
             }
         }
 
-        youtubePlayer(youTubePlayerView, context, videoId, zoomButton)
+        Handler(Looper.getMainLooper()).postDelayed({youtubePlayer(youTubePlayerView, context, videoId, zoomButton)
+        },500)
 
         descSlider.text = description
 
@@ -237,7 +240,6 @@ fun openFullScreen(linearLayout: LinearLayout, context: Context, videoId:String)
     }
 }
 fun addToFavourite(context: Context,videoId: String,lesson:String,desc:String,collection: String){
-
     val video = Video(collection,videoId,lesson,desc)
     ref.child(firebaseAuth.uid.toString()).child("Favourites")
         .child(videoId)
@@ -248,7 +250,6 @@ fun addToFavourite(context: Context,videoId: String,lesson:String,desc:String,co
         .addOnFailureListener{
             Toast.makeText(context,"Could not add to favourites", Toast.LENGTH_SHORT).show()
         }
-
 }
 
 fun removeFromFavourite(context: Context,videoId: String){
@@ -291,7 +292,7 @@ fun updateFavoriteButton(favButton:ImageButton,video: Video) {
     }
 }
 
-fun toggleFavoriteStatus(video: Video,context: Context) {
+fun toggleFavoriteStatus(video: Video, context: Context) {
     if (video.isFav) {
         removeFromFavourite(context, video.videoId)
     } else {

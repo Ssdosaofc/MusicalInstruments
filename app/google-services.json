@@ -1,6 +1,7 @@
 {
   "project_info": {
     "project_number": "959276791185",
+    "firebase_url": "https://musical-28c03-default-rtdb.firebaseio.com",
     "project_id": "musical-28c03",
     "storage_bucket": "musical-28c03.appspot.com"
   },
@@ -12,7 +13,12 @@
           "package_name": "com.example.musical"
         }
       },
-      "oauth_client": [],
+      "oauth_client": [
+        {
+          "client_id": "959276791185-9gk7qfog628c6fs1srtu686dvingq0ip.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
       "api_key": [
         {
           "current_key": "AIzaSyDy5YZCYyzKvYaNgLKkE1-eBMpspyX_ci4"
@@ -20,7 +26,12 @@
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": []
+          "other_platform_oauth_client": [
+            {
+              "client_id": "959276791185-9gk7qfog628c6fs1srtu686dvingq0ip.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
         }
       }
     }
