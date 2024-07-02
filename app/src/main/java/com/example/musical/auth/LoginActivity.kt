@@ -4,6 +4,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.text.TextUtils
 import android.widget.Button
+import android.widget.LinearLayout
 import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
@@ -42,6 +43,7 @@ class LoginActivity : AppCompatActivity() {
         val passwordbox = findViewById<TextInputEditText>(R.id.password)
         val newuser = findViewById<TextView>(R.id.newh)
         val login = findViewById<Button>(R.id.loginbutton)
+        val googleSignIn = findViewById<LinearLayout>(R.id.google)
 
         newuser.setOnClickListener {
             val intent = Intent(this, RegisterActivity::class.java)
@@ -74,6 +76,10 @@ class LoginActivity : AppCompatActivity() {
                 }
             }
         }
+
+        googleSignIn.setOnClickListener {
+            googleSignIn()
+        }
     }
 
     override fun onStart() {
@@ -88,7 +94,7 @@ class LoginActivity : AppCompatActivity() {
 
     private fun googleSignIn(){
         val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-            .requestIdToken("959276791185")
+            .requestIdToken(getString(R.string.default_web_client_id))
             .requestEmail()
             .build()
 

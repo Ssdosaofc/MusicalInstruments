@@ -22,6 +22,7 @@ class WelcomeActivity : AppCompatActivity() {
         button.setOnClickListener {
             val intent = Intent(this, WelcomeActivity2::class.java)
             startActivity(intent)
+            finish()
             overrideActivityTransition(OVERRIDE_TRANSITION_OPEN,R.anim.slide_left,R.anim.slide_left_out)
 //            overridePendingTransition(R.anim.slide_right, R.anim.slide_left_out)
         }
