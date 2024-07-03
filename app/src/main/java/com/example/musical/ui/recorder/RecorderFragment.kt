@@ -9,8 +9,8 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.TextView
 import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
 import androidx.core.content.PermissionChecker
-import androidx.core.content.PermissionChecker.checkSelfPermission
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.example.musical.databinding.FragmentRecorderBinding
@@ -55,7 +55,7 @@ open class RecorderFragment : Fragment() {
         stop = binding.stop
 
         stop.isEnabled = false
-        if(checkSelfPermission(requireContext(),Manifest.permission.RECORD_AUDIO)
+        if(ContextCompat.checkSelfPermission(requireContext(),Manifest.permission.RECORD_AUDIO)
             != PermissionChecker.PERMISSION_GRANTED){
 
             ActivityCompat.requestPermissions(requireActivity(), arrayOf(Manifest.permission.RECORD_AUDIO), 0)
@@ -102,6 +102,7 @@ open class RecorderFragment : Fragment() {
 
         timerTask= object : TimerTask() {
             override fun run() {
+                tensorAudio.load(audioRecord)
                 val output = audioClassifier.classify(tensorAudio)
                 val finalOutput:MutableList<Category> = arrayListOf()
 
@@ -118,14 +119,7 @@ open class RecorderFragment : Fragment() {
                     outputStr.append(category.label).append(": ").append(category.score).append("\n")
                 }
 
-                Thread(object : Runnable {
-                    override fun run() {
-                        outputView.text = outputStr.toString()
-                    }
-
-                }
-
-                )
+                Thread { outputView.text = outputStr.toString() }
             }
 
         }
